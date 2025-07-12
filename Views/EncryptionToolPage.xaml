@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NmapMaui.Views.EncryptionToolPage">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+            <Frame BackgroundColor="#23272F" BorderColor="#00BFAE" CornerRadius="10" Padding="15">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Encryption Tool"
+                           FontSize="24"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           TextColor="#00BFAE"/>
+
+                    <Editor x:Name="InputEditor"
+                            HeightRequest="100"
+                            Placeholder="Enter text to encrypt/decrypt"
+                            BackgroundColor="#2E323D"/>
+
+                    <Entry x:Name="KeyEntry"
+                           Placeholder="Enter encryption key"
+                           
+                           BackgroundColor="#2E323D"/>
+
+                    <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                        <Button Text="Encrypt"
+                                BackgroundColor="#536DFE"
+                                TextColor="#FFFFFF"
+                                Opacity="0.9"
+                                Clicked="OnEncryptClicked"/>
+                        <Button Text="Decrypt"
+                                BackgroundColor="#536DFE"
+                                TextColor="#FFFFFF"
+                                Opacity="0.9"
+                                Clicked="OnDecryptClicked"/>
+                    </HorizontalStackLayout>
+
+                    <ActivityIndicator x:Name="ProcessingIndicator"
+                                     IsRunning="False"
+                                     IsVisible="False"
+                                     HorizontalOptions="Center"
+                                     Color="#FFFFFF"/>
+
+                    <Editor x:Name="ResultEditor"
+                            HeightRequest="200"
+                            IsReadOnly="True"
+                            BackgroundColor="#181A20"
+                            Text="Result will appear here..."
+                            TextColor="White"/>
+                </VerticalStackLayout>
+            </Frame>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage> 

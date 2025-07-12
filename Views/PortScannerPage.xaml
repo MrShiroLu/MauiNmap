@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NmapMaui.Views.PortScannerPage">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+            <Frame BackgroundColor="#23272F" BorderColor="#00BFAE" CornerRadius="10" Padding="15">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Port Scanner"
+                           FontSize="24"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           TextColor="#00BFAE"/>
+
+                    <Entry x:Name="HostEntry"
+                           Placeholder="Enter host (e.g., 192.168.1.1)"
+                           BackgroundColor="#2E323D"
+                           TextColor="White"/>
+
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                        <Entry x:Name="StartPortEntry"
+                               Placeholder="Start Port"
+                               Keyboard="Numeric"
+                               BackgroundColor="#2E323D"
+                               TextColor="White"/>
+                        <Entry x:Name="EndPortEntry"
+                               Grid.Column="1"
+                               Placeholder="End Port"
+                               Keyboard="Numeric"
+                               BackgroundColor="#2E323D"
+                               TextColor="White"/>
+                    </Grid>
+
+                    <Button Text="Scan Ports"
+                            BackgroundColor="#536DFE"
+                            TextColor="#FFFFFF"
+                            Opacity="0.9"
+                            Clicked="OnScanClicked"/>
+
+                    <ActivityIndicator x:Name="ScanningIndicator"
+                                     IsRunning="False"
+                                     IsVisible="False"
+                                     HorizontalOptions="Center"/>
+
+                    <Editor x:Name="ResultEditor"
+                            HeightRequest="400"
+                            IsReadOnly="True"
+                            BackgroundColor="#181a20"
+                            Text="Scan results will appear here..."/>
+                </VerticalStackLayout>
+            </Frame>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage> 

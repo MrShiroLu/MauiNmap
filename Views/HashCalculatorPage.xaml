@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NmapMaui.Views.HashCalculatorPage">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+            <Frame BackgroundColor="#23272F" BorderColor="#00BFAE" CornerRadius="10" Padding="15">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Hash Calculator"
+                           FontSize="24"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           TextColor="#00BFAE"/>
+
+                    <Editor x:Name="InputEditor"
+                            HeightRequest="100"
+                            Placeholder="Enter text to hash or verify"
+                            BackgroundColor="#2E323D"/>
+
+                    <Picker x:Name="AlgorithmPicker"
+                            Title="Select Hash Algorithm"
+                            BackgroundColor="#2E323D">
+                        <Picker.Items>
+                            <x:String>MD5</x:String>
+                            <x:String>SHA1</x:String>
+                            <x:String>SHA256</x:String>
+                            <x:String>SHA384</x:String>
+                            <x:String>SHA512</x:String>
+                        </Picker.Items>
+                    </Picker>
+
+                    <HorizontalStackLayout Spacing="10">
+                        <Button Text="Calculate Hash"
+                                BackgroundColor="#536DFE"
+                                TextColor="#FFFFFF"
+                                Opacity="0.9"
+                                HorizontalOptions="FillAndExpand"
+                                Clicked="OnCalculateClicked"/>
+                        <Button Text="Verify Hash"
+                                BackgroundColor="#FF6B6B"
+                                TextColor="#FFFFFF"
+                                Opacity="0.9"
+                                HorizontalOptions="FillAndExpand"
+                                Clicked="OnVerifyClicked"/>
+                    </HorizontalStackLayout>
+
+                    <ActivityIndicator x:Name="CalculatingIndicator"
+                                     IsRunning="False"
+                                     IsVisible="False"
+                                     HorizontalOptions="Center"/>
+
+                    <Editor x:Name="ResultEditor"
+                            HeightRequest="120"
+                            IsReadOnly="True"
+                            BackgroundColor="#181A20"
+                            Text="Hash result will appear here..."
+                            TextColor="White"/>
+
+                    <Editor x:Name="HashToVerifyEditor"
+                            HeightRequest="60"
+                            Placeholder="Enter hash to verify against (optional)"
+                            BackgroundColor="#2E323D"/>
+
+                    <ActivityIndicator x:Name="VerifyingIndicator"
+                                     IsRunning="False"
+                                     IsVisible="False"
+                                     HorizontalOptions="Center"/>
+
+                    <Editor x:Name="VerificationResultEditor"
+                            HeightRequest="160"
+                            IsReadOnly="True"
+                            BackgroundColor="#181A20"
+                            Text="Verification result will appear here..."
+                            TextColor="White"/>
+                </VerticalStackLayout>
+            </Frame>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage> 

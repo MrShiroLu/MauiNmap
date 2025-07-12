@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NmapMaui.DatabaseControlPage"
+             BackgroundColor="#1E1E1E">
+
+    <Grid RowDefinitions="Auto,Auto,*" Padding="20">
+        <!-- Header -->
+        <Label Text="Database Control"
+               FontSize="24"
+               FontAttributes="Bold"
+               HorizontalOptions="Center"
+               Margin="0,0,0,20"/>
+
+        <!-- Selection -->
+        <Picker Grid.Row="1" 
+                x:Name="_tablePicker" 
+                Title="Select Table"
+                SelectedIndexChanged="OnTablePickerSelectedIndexChanged"
+                Margin="0,0,0,10"
+                WidthRequest="200"
+                HorizontalOptions="Center"
+                TextColor="#FFFFFF"
+                BackgroundColor="#2D2D2D"/>
+
+        <!-- Scrollable Data Section -->
+        <ScrollView Grid.Row="2" 
+                    x:Name="_scrollView"
+                    VerticalOptions="FillAndExpand">
+            <ContentView x:Name="_tableContentView">
+            </ContentView>
+        </ScrollView>
+    </Grid>
+</ContentPage>

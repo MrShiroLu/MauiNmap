@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NmapMaui.NetworkToolsPage">
+
+    <Grid RowDefinitions="Auto,*" Padding="20">
+        <Label Text="Network Tools"
+               TextColor="#FFFFFF"
+               FontSize="24"
+               FontAttributes="Bold"
+               HorizontalOptions="Center"
+               Margin="0,0,0,20"/>
+
+        <Grid Grid.Row="1" 
+              RowDefinitions="*,*"
+              ColumnDefinitions="*,*,*"
+              RowSpacing="20"
+              ColumnSpacing="20">
+
+            <!-- Port Scanner -->
+            <Frame Grid.Row="0" Grid.Column="0"
+                   BackgroundColor="#23272F"                
+                   BorderColor="#00BFAE"
+                   CornerRadius="10"
+                   Padding="15">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Port Scanner"
+                           TextColor="#00BFAE"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"/>
+                    <Label Text="Scan ports on a target host"
+                           FontSize="14"
+                           HorizontalOptions="Center"/>
+                    <Button Text="Open"
+                            FontAttributes="Bold"                            
+                            BackgroundColor="#536DFE"
+                            Opacity="0.9"
+                            TextColor="#FFFFFF"
+                            Clicked="OnPortScannerClicked"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Ping Tool -->
+            <Frame Grid.Row="0" Grid.Column="1"
+                   BackgroundColor="#23272F"
+                   BorderColor="#00BFAE"
+                   CornerRadius="10"
+                   Padding="15">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Ping Tool"
+                           TextColor="#00BFAE"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"/>
+                    <Label Text="Check host availability"
+                           FontSize="14"
+                           HorizontalOptions="Center"/>
+                    <Button Text="Open"
+                            FontAttributes="Bold"
+                            Opacity="0.9"
+                            BackgroundColor="#536DFE"
+                            TextColor="#FFFFFF"
+                            Clicked="OnPingToolClicked"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- DNS Lookup -->
+            <Frame Grid.Row="0" Grid.Column="2"
+                   BackgroundColor="#23272F"
+                   BorderColor="#00BFAE"
+                   CornerRadius="10"
+                   Padding="15">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="DNS Lookup"
+                           TextColor="#00BFAE"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"/>
+                    <Label Text="Resolve hostnames to IP"
+                           FontSize="14"
+                           HorizontalOptions="Center"/>
+                    <Button Text="Open"
+                            FontAttributes="Bold"
+                            Opacity="0.9"
+                            BackgroundColor="#536DFE"
+                            TextColor="#FFFFFF"
+                            Clicked="OnDnsLookupClicked"/>
+                </VerticalStackLayout>
+            </Frame>
+        </Grid>
+    </Grid>
+</ContentPage>
