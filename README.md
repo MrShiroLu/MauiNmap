@@ -71,7 +71,7 @@ NmapMaui is a cross-platform .NET MAUI application that provides a set of networ
 
 1. Clone the repository:
    ```sh
-   git clone <repo-url>
+   git clone https://github.com/MrShiroLu/MauiNmap.git
    cd NmapMaui
    ```
 2. Restore dependencies:
