@@ -1,3 +1,5 @@
+using System;
+using System.Threading;
 using System.Threading.Tasks;
 using NmapMaui.Models;
 
@@ -7,7 +9,8 @@ namespace NmapMaui.Services
     {
         Task<ScanResult> ScanPortAsync(string host, int port);
         Task<ScanResult> ScanPortRangeAsync(string host, int startPort, int endPort);
+        Task<ScanResult> ScanPortRangeAsync(string host, int startPort, int endPort, Action<string>? onOutputLine, CancellationToken cancellationToken = default);
         Task<ScanResult> PingHostAsync(string host);
         Task<ScanResult> ResolveDnsAsync(string hostname);
     }
-} 
+}

@@ -69,7 +69,10 @@ namespace NmapMaui.Services
             }
         }
 
-        public async Task<ScanResult> ScanPortRangeAsync(string host, int startPort, int endPort)
+        public Task<ScanResult> ScanPortRangeAsync(string host, int startPort, int endPort)
+            => ScanPortRangeAsync(host, startPort, endPort, null, System.Threading.CancellationToken.None);
+
+        public async Task<ScanResult> ScanPortRangeAsync(string host, int startPort, int endPort, Action<string>? onOutputLine, System.Threading.CancellationToken cancellationToken = default)
         {
             var result = new ScanResult
             {
@@ -80,6 +83,10 @@ namespace NmapMaui.Services
                 IsSuccess = true
             };
 
+            var collected = new System.Text.StringBuilder();
+            var errors = new System.Text.StringBuilder();
+
+            System.Diagnostics.Process? process = null;
             try
             {
                 var startInfo = new System.Diagnostics.ProcessStartInfo
@@ -92,21 +99,47 @@ namespace NmapMaui.Services
                     CreateNoWindow = true
                 };
 
-                using var process = new System.Diagnostics.Process { StartInfo = startInfo };
+                process = new System.Diagnostics.Process { StartInfo = startInfo };
                 process.Start();
 
-                var output = await process.StandardOutput.ReadToEndAsync();
-                var error = await process.StandardError.ReadToEndAsync();
+                // Stream stdout line-by-line so the UI can update in real time.
+                var stdoutTask = Task.Run(async () =>
+                {
+                    string? line;
+                    while ((line = await process.StandardOutput.ReadLineAsync()) != null)
+                    {
+                        if (cancellationToken.IsCancellationRequested)
+                        {
+                            break;
+                        }
+                        collected.AppendLine(line);
+                        onOutputLine?.Invoke(line);
+                    }
+                }, cancellationToken);
 
-                await process.WaitForExitAsync();
+                var stderrTask = Task.Run(async () =>
+                {
+                    string? line;
+                    while ((line = await process.StandardError.ReadLineAsync()) != null)
+                    {
+                        errors.AppendLine(line);
+                        onOutputLine?.Invoke("[stderr] " + line);
+                    }
+                }, cancellationToken);
+
+                using (cancellationToken.Register(() => { try { process.Kill(entireProcessTree: true); } catch { } }))
+                {
+                    await Task.WhenAll(stdoutTask, stderrTask);
+                    await process.WaitForExitAsync(cancellationToken);
+                }
 
                 if (process.ExitCode == 0)
                 {
-                    result.Result = output;
+                    result.Result = collected.ToString();
                 }
                 else
                 {
-                    result.Result = $"Nmap scan failed: {error}";
+                    result.Result = $"Nmap scan failed: {errors}";
                     result.IsSuccess = false;
                 }
             }
@@ -114,6 +147,21 @@ namespace NmapMaui.Services
             {
                 result.Result = $"Error during port range scan: {ex.Message}";
                 result.IsSuccess = false;
+            }
+            finally
+            {
+                if (process != null)
+                {
+                    try
+                    {
+                        if (!process.HasExited)
+                        {
+                            process.Kill(entireProcessTree: true);
+                        }
+                    }
+                    catch { }
+                    process.Dispose();
+                }
             }
 
             return result;
