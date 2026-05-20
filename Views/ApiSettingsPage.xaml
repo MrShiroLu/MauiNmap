@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NmapMaui.Views.ApiSettingsPage"
+             Title="API Settings">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+            <Label Text="Backend API" FontSize="24" FontAttributes="Bold" TextColor="#00BFAE" HorizontalOptions="Center"/>
+            <Label Text="Set the base URL of the NmapMaui.Api Minimal API service. Stored in Preferences." TextColor="LightGray" FontSize="12"/>
+            <Entry x:Name="UrlEntry" Placeholder="http://localhost:5000" BackgroundColor="#2E323D" TextColor="White"/>
+            <Button Text="Save URL" BackgroundColor="#536DFE" TextColor="White" Clicked="OnSaveClicked"/>
+            <Button Text="Check Health" BackgroundColor="#00BFAE" TextColor="White" Clicked="OnCheckHealthClicked"/>
+            <Label x:Name="StatusLabel" TextColor="#00BFAE"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

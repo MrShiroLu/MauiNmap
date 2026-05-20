@@ -2,9 +2,9 @@ using NmapMaui.ViewModels;
 
 namespace NmapMaui.Views;
 
-public partial class Base64ToolPage : ContentPage
+public partial class GobusterPage : ContentPage
 {
-    public Base64ToolPage(Base64ToolViewModel vm)
+    public GobusterPage(GobusterViewModel vm)
     {
         InitializeComponent();
         BindingContext = vm;

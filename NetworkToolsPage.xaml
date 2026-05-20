@@ -65,6 +65,32 @@
                 </VerticalStackLayout>
             </Frame>
 
+            <!-- Gobuster -->
+            <Frame Grid.Row="1" Grid.Column="0"
+                   BackgroundColor="#23272F"
+                   BorderColor="#00BFAE"
+                   CornerRadius="10"
+                   Padding="15">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Gobuster" TextColor="#00BFAE" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Text="Directory busting" FontSize="14" HorizontalOptions="Center"/>
+                    <Button Text="Open" FontAttributes="Bold" BackgroundColor="#536DFE" Opacity="0.9" TextColor="#FFFFFF" Clicked="OnGobusterClicked"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Netcat -->
+            <Frame Grid.Row="1" Grid.Column="1"
+                   BackgroundColor="#23272F"
+                   BorderColor="#00BFAE"
+                   CornerRadius="10"
+                   Padding="15">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Netcat" TextColor="#00BFAE" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Text="TCP banner grab" FontSize="14" HorizontalOptions="Center"/>
+                    <Button Text="Open" FontAttributes="Bold" BackgroundColor="#536DFE" Opacity="0.9" TextColor="#FFFFFF" Clicked="OnNetcatClicked"/>
+                </VerticalStackLayout>
+            </Frame>
+
             <!-- DNS Lookup -->
             <Frame Grid.Row="0" Grid.Column="2"
                    BackgroundColor="#23272F"

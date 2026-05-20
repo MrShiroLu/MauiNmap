@@ -1,5 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using NmapMaui.Data;
 using NmapMaui.Services;
+using NmapMaui.ViewModels;
 using NmapMaui.Views;
 
 namespace NmapMaui;
@@ -17,6 +20,17 @@ public static class MauiProgram
 		builder.Services.AddSingleton<ICryptographyService, CryptographyService>();
 		builder.Services.AddSingleton<DatabaseService>();
 		builder.Services.AddSingleton<AuthService>();
+		builder.Services.AddSingleton<IGobusterService, GobusterService>();
+		builder.Services.AddSingleton<INetcatService, NetcatService>();
+		builder.Services.AddSingleton<IExportService, ExportService>();
+		builder.Services.AddSingleton<ILoggingService, LoggingService>();
+		builder.Services.AddSingleton<ISchedulerService, SchedulerService>();
+		builder.Services.AddHttpClient<IApiClient, ApiClient>();
+		builder.Services.AddDbContextFactory<AppDbContext>(opts =>
+		{
+			var dbPath = System.IO.Path.Combine(FileSystem.AppDataDirectory, "maui_db_ef.db");
+			opts.UseSqlite($"Data Source={dbPath}");
+		});
 
 		// Register pages for dependency injection using the builder
 		builder.Services.AddTransient<LoginPage>();
@@ -34,6 +48,25 @@ public static class MauiProgram
 		builder.Services.AddTransient<DatabaseControlPage>();
 		builder.Services.AddTransient<NetworkToolsPage>();
 		builder.Services.AddTransient<ChangePasswordPage>();
+		builder.Services.AddTransient<GobusterPage>();
+		builder.Services.AddTransient<NetcatPage>();
+		builder.Services.AddTransient<LogsPage>();
+		builder.Services.AddTransient<SchedulerPage>();
+		builder.Services.AddTransient<ApiSettingsPage>();
+
+		// ViewModels (MVVM)
+		builder.Services.AddTransient<PingToolViewModel>();
+		builder.Services.AddTransient<DnsLookupViewModel>();
+		builder.Services.AddTransient<HashCalculatorViewModel>();
+		builder.Services.AddTransient<Base64ToolViewModel>();
+		builder.Services.AddTransient<EncryptionToolViewModel>();
+		builder.Services.AddTransient<PasswordGenViewModel>();
+		builder.Services.AddTransient<PasswordStrengthViewModel>();
+		builder.Services.AddTransient<PasswordLeakCheckViewModel>();
+		builder.Services.AddTransient<PortScannerViewModel>();
+		builder.Services.AddTransient<GobusterViewModel>();
+		builder.Services.AddTransient<NetcatViewModel>();
+		builder.Services.AddSingleton<PasswordLeakCheckService>();
 		builder.Services.AddSingleton<AppShell>();
 		builder.Services.AddTransient<MainPage>();
 

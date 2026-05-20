@@ -6,13 +6,15 @@ namespace NmapMaui.Views;
 public partial class LoginPage : ContentPage
 {
     private readonly AuthService _authService;
+    private readonly ILoggingService _logging;
     public string Username { get; set; }
     public string Password { get; set; }
 
-    public LoginPage(AuthService authService)
+    public LoginPage(AuthService authService, ILoggingService logging)
     {
         InitializeComponent();
         _authService = authService;
+        _logging = logging;
         BindingContext = this;
     }
 
@@ -22,7 +24,8 @@ public partial class LoginPage : ContentPage
 
         if (Shell.Current.CurrentState.Location.OriginalString.Contains("LogoutPage"))
         {
-            _authService.Logout(); 
+            await _logging.LogAsync("Logout", "Auth", _authService.CurrentUser?.Username ?? "?");
+            _authService.Logout();
 
             
             Shell.Current.FlyoutBehavior = FlyoutBehavior.Disabled;
@@ -61,6 +64,7 @@ public partial class LoginPage : ContentPage
         var user = await _authService.LoginUser(Username, Password);
         if (user != null)
         {
+            await _logging.LogAsync("Login", "Auth", Username);
             
             Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
 
@@ -73,6 +77,7 @@ public partial class LoginPage : ContentPage
         }
         else
         {
+            await _logging.LogAsync("LoginFailed", "Auth", Username, "Warning");
             MessageLabel.Text = "Username or password is incorrect.";
         }
     }
@@ -94,6 +99,7 @@ public partial class LoginPage : ContentPage
         var success = await _authService.RegisterUser(Username, Password);
         if (success)
         {
+            await _logging.LogAsync("Register", "Auth", Username);
             MessageLabel.Text = "Registration successful! You can now login.";
             MessageLabel.TextColor = Colors.Green;
         }

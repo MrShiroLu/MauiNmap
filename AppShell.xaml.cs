@@ -17,6 +17,11 @@ public partial class AppShell : Shell
 		Routing.RegisterRoute("LogoutPage", typeof(LoginPage));
 		Routing.RegisterRoute(nameof(ChangePasswordPage), typeof(ChangePasswordPage));
 		Routing.RegisterRoute(nameof(EncryptionToolPage), typeof(EncryptionToolPage));
+		Routing.RegisterRoute(nameof(GobusterPage), typeof(GobusterPage));
+		Routing.RegisterRoute(nameof(NetcatPage), typeof(NetcatPage));
+		Routing.RegisterRoute(nameof(LogsPage), typeof(LogsPage));
+		Routing.RegisterRoute(nameof(SchedulerPage), typeof(SchedulerPage));
+		Routing.RegisterRoute(nameof(ApiSettingsPage), typeof(ApiSettingsPage));
 	}
 
 	protected override void OnNavigating(ShellNavigatingEventArgs args)

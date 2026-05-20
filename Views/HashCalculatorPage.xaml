@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="NmapMaui.Views.HashCalculatorPage">
+             xmlns:vm="clr-namespace:NmapMaui.ViewModels"
+             x:Class="NmapMaui.Views.HashCalculatorPage"
+             x:DataType="vm:HashCalculatorViewModel">
 
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="20">
             <Frame BackgroundColor="#23272F" BorderColor="#00BFAE" CornerRadius="10" Padding="15">
                 <VerticalStackLayout Spacing="15">
-                    <Label Text="Hash Calculator"
-                           FontSize="24"
-                           FontAttributes="Bold"
-                           HorizontalOptions="Center"
-                           TextColor="#00BFAE"/>
+                    <Label Text="Hash Calculator" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" TextColor="#00BFAE"/>
 
-                    <Editor x:Name="InputEditor"
-                            HeightRequest="100"
-                            Placeholder="Enter text to hash or verify"
-                            BackgroundColor="#2E323D"/>
+                    <Editor Text="{Binding Input}" HeightRequest="100" Placeholder="Enter text to hash or verify" BackgroundColor="#2E323D"/>
 
-                    <Picker x:Name="AlgorithmPicker"
-                            Title="Select Hash Algorithm"
-                            BackgroundColor="#2E323D">
+                    <Picker Title="Select Hash Algorithm" SelectedItem="{Binding SelectedAlgorithm}" BackgroundColor="#2E323D">
                         <Picker.Items>
                             <x:String>MD5</x:String>
                             <x:String>SHA1</x:String>
@@ -31,50 +24,19 @@
                     </Picker>
 
                     <HorizontalStackLayout Spacing="10">
-                        <Button Text="Calculate Hash"
-                                BackgroundColor="#536DFE"
-                                TextColor="#FFFFFF"
-                                Opacity="0.9"
-                                HorizontalOptions="FillAndExpand"
-                                Clicked="OnCalculateClicked"/>
-                        <Button Text="Verify Hash"
-                                BackgroundColor="#FF6B6B"
-                                TextColor="#FFFFFF"
-                                Opacity="0.9"
-                                HorizontalOptions="FillAndExpand"
-                                Clicked="OnVerifyClicked"/>
+                        <Button Text="Calculate Hash" BackgroundColor="#536DFE" TextColor="#FFFFFF" Opacity="0.9" HorizontalOptions="FillAndExpand" Command="{Binding CalculateCommand}"/>
+                        <Button Text="Verify Hash" BackgroundColor="#FF6B6B" TextColor="#FFFFFF" Opacity="0.9" HorizontalOptions="FillAndExpand" Command="{Binding VerifyCommand}"/>
                     </HorizontalStackLayout>
 
-                    <ActivityIndicator x:Name="CalculatingIndicator"
-                                     IsRunning="False"
-                                     IsVisible="False"
-                                     HorizontalOptions="Center"/>
+                    <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" HorizontalOptions="Center"/>
 
-                    <Editor x:Name="ResultEditor"
-                            HeightRequest="120"
-                            IsReadOnly="True"
-                            BackgroundColor="#181A20"
-                            Text="Hash result will appear here..."
-                            TextColor="White"/>
+                    <Editor Text="{Binding Result}" HeightRequest="120" IsReadOnly="True" BackgroundColor="#181A20" TextColor="White"/>
 
-                    <Editor x:Name="HashToVerifyEditor"
-                            HeightRequest="60"
-                            Placeholder="Enter hash to verify against (optional)"
-                            BackgroundColor="#2E323D"/>
+                    <Editor Text="{Binding HashToVerify}" HeightRequest="60" Placeholder="Enter hash to verify against" BackgroundColor="#2E323D"/>
 
-                    <ActivityIndicator x:Name="VerifyingIndicator"
-                                     IsRunning="False"
-                                     IsVisible="False"
-                                     HorizontalOptions="Center"/>
-
-                    <Editor x:Name="VerificationResultEditor"
-                            HeightRequest="160"
-                            IsReadOnly="True"
-                            BackgroundColor="#181A20"
-                            Text="Verification result will appear here..."
-                            TextColor="White"/>
+                    <Editor Text="{Binding VerificationResult}" HeightRequest="160" IsReadOnly="True" BackgroundColor="#181A20" TextColor="White"/>
                 </VerticalStackLayout>
             </Frame>
         </VerticalStackLayout>
     </ScrollView>
-</ContentPage> 
+</ContentPage>

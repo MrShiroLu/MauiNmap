@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NmapMaui.Views.SchedulerPage"
+             Title="Scheduled Scans">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+            <Label Text="Periodic Nmap Scheduler" FontSize="24" FontAttributes="Bold" TextColor="#00BFAE" HorizontalOptions="Center"/>
+            <Entry x:Name="HostEntry" Placeholder="Host" BackgroundColor="#2E323D" TextColor="White"/>
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Entry x:Name="StartPortEntry" Placeholder="Start port" Keyboard="Numeric" BackgroundColor="#2E323D" TextColor="White"/>
+                <Entry x:Name="EndPortEntry" Grid.Column="1" Placeholder="End port" Keyboard="Numeric" BackgroundColor="#2E323D" TextColor="White"/>
+            </Grid>
+            <Entry x:Name="CronEntry" Placeholder="Cron (e.g. 0 0/30 * * * ?)" Text="0 0/30 * * * ?" BackgroundColor="#2E323D" TextColor="White"/>
+            <Label TextColor="LightGray" FontSize="11" Text="Cron format: seconds minutes hours day-of-month month day-of-week. Example '0 0/30 * * * ?' = every 30 minutes."/>
+            <Button Text="Schedule Job" BackgroundColor="#536DFE" TextColor="White" Clicked="OnScheduleClicked"/>
+            <Label x:Name="StatusLabel" TextColor="#00BFAE"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

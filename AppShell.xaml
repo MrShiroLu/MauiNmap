@@ -43,6 +43,24 @@
             ContentTemplate="{DataTemplate local:DatabaseControlPage}"
             Route="DatabaseControlPage" />
     </FlyoutItem>
+
+    <FlyoutItem Title="Activity Logs" Icon="database.png">
+        <ShellContent
+            ContentTemplate="{DataTemplate views:LogsPage}"
+            Route="LogsPage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Scheduled Scans" Icon="network.png">
+        <ShellContent
+            ContentTemplate="{DataTemplate views:SchedulerPage}"
+            Route="SchedulerPage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="API Settings" Icon="network.png">
+        <ShellContent
+            ContentTemplate="{DataTemplate views:ApiSettingsPage}"
+            Route="ApiSettingsPage" />
+    </FlyoutItem>
     
     <FlyoutItem Title="Change Password" Icon="key.png">
         <ShellContent

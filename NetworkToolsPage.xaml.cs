@@ -30,4 +30,14 @@ public partial class NetworkToolsPage : ContentPage
     {
         await Navigation.PushAsync(_serviceProvider.GetRequiredService<DnsLookupPage>());
     }
+
+    private async void OnGobusterClicked(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(_serviceProvider.GetRequiredService<GobusterPage>());
+    }
+
+    private async void OnNetcatClicked(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(_serviceProvider.GetRequiredService<NetcatPage>());
+    }
 }

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="NmapMaui.Views.PingToolPage">
+             xmlns:vm="clr-namespace:NmapMaui.ViewModels"
+             x:Class="NmapMaui.Views.PingToolPage"
+             x:DataType="vm:PingToolViewModel">
 
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="20">
@@ -13,7 +15,7 @@
                            HorizontalOptions="Center"
                            TextColor="#00BFAE"/>
 
-                    <Entry x:Name="HostEntry"
+                    <Entry Text="{Binding Host}"
                            Placeholder="Enter host (e.g., 192.168.1.1 or example.com)"
                            BackgroundColor="#2E323D"/>
 
@@ -21,21 +23,19 @@
                             BackgroundColor="#536DFE"
                             TextColor="#FFFFFF"
                             Opacity="0.9"
-                            Clicked="OnPingClicked"/>
+                            Command="{Binding PingCommand}"/>
 
-                    <ActivityIndicator x:Name="PingingIndicator"
-                                     IsRunning="False"
-                                     IsVisible="False"
+                    <ActivityIndicator IsRunning="{Binding IsBusy}"
+                                     IsVisible="{Binding IsBusy}"
                                      HorizontalOptions="Center"
                                      BackgroundColor="#181A20"/>
 
-                    <Editor x:Name="ResultEditor"
+                    <Editor Text="{Binding Result}"
                             HeightRequest="200"
                             IsReadOnly="True"
-                            Text="Ping results will appear here..."
                             BackgroundColor="#181A20"/>
                 </VerticalStackLayout>
             </Frame>
         </VerticalStackLayout>
     </ScrollView>
-</ContentPage> 
+</ContentPage>

@@ -2,39 +2,28 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:NmapMaui.ViewModels"
-             x:Class="NmapMaui.Views.PortScannerPage"
-             x:DataType="vm:PortScannerViewModel">
-
+             x:Class="NmapMaui.Views.GobusterPage"
+             x:DataType="vm:GobusterViewModel">
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="20">
             <Frame BackgroundColor="#23272F" BorderColor="#00BFAE" CornerRadius="10" Padding="15">
                 <VerticalStackLayout Spacing="15">
-                    <Label Text="Port Scanner" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" TextColor="#00BFAE"/>
-
-                    <Entry Text="{Binding Host}" Placeholder="Enter host (e.g., 192.168.1.1)" BackgroundColor="#2E323D" TextColor="White"/>
-
-                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
-                        <Entry Text="{Binding StartPort}" Placeholder="Start Port" Keyboard="Numeric" BackgroundColor="#2E323D" TextColor="White"/>
-                        <Entry Grid.Column="1" Text="{Binding EndPort}" Placeholder="End Port" Keyboard="Numeric" BackgroundColor="#2E323D" TextColor="White"/>
-                    </Grid>
-
+                    <Label Text="Gobuster (Directory Buster)" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" TextColor="#00BFAE"/>
+                    <Entry Text="{Binding Url}" Placeholder="Target URL" BackgroundColor="#2E323D" TextColor="White"/>
+                    <Entry Text="{Binding Wordlist}" Placeholder="Wordlist path" BackgroundColor="#2E323D" TextColor="White"/>
                     <HorizontalStackLayout Spacing="10" VerticalOptions="Center" HorizontalOptions="Center">
                         <Label Text="Remote Scan (Minimal API):" VerticalOptions="Center" TextColor="White"/>
                         <Switch IsToggled="{Binding UseRemoteApi}" OnColor="#00BFAE"/>
                     </HorizontalStackLayout>
 
-                    <Button Text="Scan Ports" BackgroundColor="#536DFE" TextColor="#FFFFFF" Opacity="0.9" Command="{Binding ScanCommand}"/>
-
+                    <Button Text="Start Scan" BackgroundColor="#536DFE" TextColor="#FFFFFF" Command="{Binding ScanCommand}"/>
                     <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" HorizontalOptions="Center"/>
-
-                    <Editor Text="{Binding Output}" HeightRequest="400" IsReadOnly="True" BackgroundColor="#181a20"/>
-
+                    <Editor Text="{Binding Output}" HeightRequest="350" IsReadOnly="True" BackgroundColor="#181a20"/>
                     <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10">
                         <Button Grid.Column="0" Text="Export JSON" BackgroundColor="#00BFAE" TextColor="White" Command="{Binding ExportJsonCommand}"/>
                         <Button Grid.Column="1" Text="Export CSV" BackgroundColor="#00BFAE" TextColor="White" Command="{Binding ExportCsvCommand}"/>
                         <Button Grid.Column="2" Text="Export PDF" BackgroundColor="#00BFAE" TextColor="White" Command="{Binding ExportPdfCommand}"/>
                     </Grid>
-
                     <Label Text="{Binding StatusMessage}" TextColor="#00BFAE" FontSize="12"/>
                 </VerticalStackLayout>
             </Frame>

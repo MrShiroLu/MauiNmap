@@ -2,9 +2,9 @@ using NmapMaui.ViewModels;
 
 namespace NmapMaui.Views;
 
-public partial class Base64ToolPage : ContentPage
+public partial class NetcatPage : ContentPage
 {
-    public Base64ToolPage(Base64ToolViewModel vm)
+    public NetcatPage(NetcatViewModel vm)
     {
         InitializeComponent();
         BindingContext = vm;

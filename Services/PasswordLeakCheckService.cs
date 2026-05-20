@@ -32,9 +32,12 @@ namespace NmapMaui.Services
                 foreach (var line in lines)
                 {
                     var parts = line.Split(':');
-                    if (parts[0].Equals(suffix, StringComparison.OrdinalIgnoreCase))
+                    if (parts.Length == 2 && parts[0].Equals(suffix, StringComparison.OrdinalIgnoreCase))
                     {
-                        return int.Parse(parts[1]);
+                        if (int.TryParse(parts[1].Trim(), out var count))
+                        {
+                            return count;
+                        }
                     }
                 }
 
