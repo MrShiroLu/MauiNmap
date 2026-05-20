@@ -1,20 +1,27 @@
-using SQLite;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using NmapMaui.Models;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using NmapMaui.Data;
+using NmapMaui.Models;
 
 namespace NmapMaui.Services
 {
+    // Migrated from sqlite-net-pcl to EF Core. The public surface is preserved so
+    // existing pages/view-models keep working; internally everything now goes
+    // through AppDbContext via IDbContextFactory.
     public class DatabaseService
     {
-        private SQLiteAsyncConnection _database;
+        private readonly IDbContextFactory<AppDbContext> _factory;
         private string _currentUser;
         private int _currentUserId;
+        private bool _initialized;
 
-        public DatabaseService()
+        public DatabaseService(IDbContextFactory<AppDbContext> factory)
         {
-            InitializeDatabase();
+            _factory = factory;
+            EnsureCreated();
         }
 
         public void SetCurrentUser(string username, int userId)
@@ -23,103 +30,62 @@ namespace NmapMaui.Services
             _currentUserId = userId;
         }
 
-        private async void InitializeDatabase()
+        private void EnsureCreated()
         {
-            if (_database is not null)
-                return;
-
-            string dbPath = Path.Combine(FileSystem.AppDataDirectory, "maui_db.db");
-            System.Diagnostics.Debug.WriteLine($"Database path: {dbPath}");
-            _database = new SQLiteAsyncConnection(dbPath);
-            await _database.CreateTableAsync<Base64>();
-            await _database.CreateTableAsync<Dns>();
-            await _database.CreateTableAsync<Encryption>();
-            await _database.CreateTableAsync<Hash>();
-            await _database.CreateTableAsync<Nmap>();
-            await _database.CreateTableAsync<PassGen>();
-            await _database.CreateTableAsync<PassStr>();
-            await _database.CreateTableAsync<Ping>();
-            await _database.CreateTableAsync<User>();
+            if (_initialized) return;
+            using var ctx = _factory.CreateDbContext();
+            ctx.Database.EnsureCreated();
+            _initialized = true;
         }
 
-        // Generic method to get all items of a type
-        public async Task<List<T>> GetItemsAsync<T>() where T : new()
+        public async Task<List<T>> GetItemsAsync<T>() where T : class, new()
         {
-            return await _database.Table<T>().ToListAsync();
+            await using var ctx = await _factory.CreateDbContextAsync();
+            return await ctx.Set<T>().ToListAsync();
         }
 
-        // Generic method to add a new item
         public async Task<int> AddItemAsync<T>(T item) where T : BaseModel, new()
         {
             if (string.IsNullOrEmpty(_currentUser))
-            {
                 throw new InvalidOperationException("Current user must be set before adding items");
-            }
 
             item.CreatedBy = _currentUser;
             item.CreatedAt = DateTime.UtcNow;
             item.UpdatedAt = DateTime.UtcNow;
-            return await _database.InsertAsync(item);
+
+            await using var ctx = await _factory.CreateDbContextAsync();
+            ctx.Set<T>().Add(item);
+            await ctx.SaveChangesAsync();
+            return item.Id;
         }
 
-        // Generic method to update an existing item
         public async Task<int> UpdateItemAsync<T>(T item) where T : BaseModel, new()
         {
             if (string.IsNullOrEmpty(_currentUser))
-            {
                 throw new InvalidOperationException("Current user must be set before updating items");
-            }
 
             item.UpdatedAt = DateTime.UtcNow;
-            return await _database.UpdateAsync(item);
+            await using var ctx = await _factory.CreateDbContextAsync();
+            ctx.Set<T>().Update(item);
+            return await ctx.SaveChangesAsync();
         }
 
-        // Generic method to delete an item by ID
-        public async Task<int> DeleteItemAsync<T>(int id) where T : new()
+        public async Task<int> DeleteItemAsync<T>(int id) where T : class, new()
         {
-            return await _database.DeleteAsync<T>(id);
+            await using var ctx = await _factory.CreateDbContextAsync();
+            var entity = await ctx.Set<T>().FindAsync(id);
+            if (entity == null) return 0;
+            ctx.Set<T>().Remove(entity);
+            return await ctx.SaveChangesAsync();
         }
 
-        // Specific methods to get all items for each table
-        public Task<List<Base64>> GetBase64ItemsAsync()
-        {
-            return _database.Table<Base64>().ToListAsync();
-        }
-
-        public Task<List<Dns>> GetDnsItemsAsync()
-        {
-            return _database.Table<Dns>().ToListAsync();
-        }
-
-        public Task<List<Encryption>> GetEncryptionItemsAsync()
-        {
-            return _database.Table<Encryption>().ToListAsync();
-        }
-
-        public Task<List<Hash>> GetHashItemsAsync()
-        {
-            return _database.Table<Hash>().ToListAsync();
-        }
-
-        public Task<List<Nmap>> GetNmapItemsAsync()
-        {
-            return _database.Table<Nmap>().ToListAsync();
-        }
-
-        public Task<List<PassGen>> GetPassGenItemsAsync()
-        {
-            return _database.Table<PassGen>().ToListAsync();
-        }
-
-        public Task<List<PassStr>> GetPassStrItemsAsync()
-        {
-            return _database.Table<PassStr>().ToListAsync();
-        }
-
-        public Task<List<Ping>> GetPingItemsAsync()
-        {
-            return _database.Table<Ping>().ToListAsync();
-        }
-
+        public Task<List<Base64>> GetBase64ItemsAsync() => GetItemsAsync<Base64>();
+        public Task<List<Dns>> GetDnsItemsAsync() => GetItemsAsync<Dns>();
+        public Task<List<Encryption>> GetEncryptionItemsAsync() => GetItemsAsync<Encryption>();
+        public Task<List<Hash>> GetHashItemsAsync() => GetItemsAsync<Hash>();
+        public Task<List<Nmap>> GetNmapItemsAsync() => GetItemsAsync<Nmap>();
+        public Task<List<PassGen>> GetPassGenItemsAsync() => GetItemsAsync<PassGen>();
+        public Task<List<PassStr>> GetPassStrItemsAsync() => GetItemsAsync<PassStr>();
+        public Task<List<Ping>> GetPingItemsAsync() => GetItemsAsync<Ping>();
     }
-} 
+}
