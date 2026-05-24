@@ -35,7 +35,10 @@
                         <Button Grid.Column="2" Text="Export PDF" BackgroundColor="#00BFAE" TextColor="White" Command="{Binding ExportPdfCommand}"/>
                     </Grid>
 
-                    <Label Text="{Binding StatusMessage}" TextColor="#00BFAE" FontSize="12"/>
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10" VerticalOptions="Center">
+                        <Label Grid.Column="0" Text="{Binding StatusMessage}" TextColor="#00BFAE" FontSize="12" VerticalOptions="Center" LineBreakMode="CharacterWrap"/>
+                        <Button Grid.Column="1" Text="Copy Path" IsVisible="{Binding HasSavedPath}" BackgroundColor="#00BFAE" TextColor="White" HeightRequest="32" Padding="12,0" FontSize="11" CornerRadius="6" Command="{Binding CopySavedPathCommand}"/>
+                    </Grid>
                 </VerticalStackLayout>
             </Frame>
         </VerticalStackLayout>

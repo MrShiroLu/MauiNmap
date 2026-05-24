@@ -26,6 +26,12 @@ namespace NmapMaui.ViewModels
         [ObservableProperty] private string statusMessage = string.Empty;
         [ObservableProperty] private bool useRemoteApi;
 
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(HasSavedPath))]
+        private string lastSavedPath = string.Empty;
+
+        public bool HasSavedPath => !string.IsNullOrEmpty(LastSavedPath);
+
         public PortScannerViewModel(INetworkScanner scanner, IApiClient api, DatabaseService db, AuthService auth, IExportService export, ILoggingService logging)
         {
             _scanner = scanner;
@@ -46,6 +52,7 @@ namespace NmapMaui.ViewModels
             if (sp < 1 || ep > 65535 || sp > ep) { StatusMessage = "Port range out of bounds."; return; }
 
             _db.SetCurrentUser(_auth.CurrentUser.Username, _auth.CurrentUser.Id);
+            LastSavedPath = string.Empty;
             IsBusy = true;
             Output = string.Empty;
             StatusMessage = "Scanning...";
@@ -103,12 +110,23 @@ namespace NmapMaui.ViewModels
         [RelayCommand] private Task ExportCsvAsync() => ExportAsync(ExportFormat.Csv);
         [RelayCommand] private Task ExportPdfAsync() => ExportAsync(ExportFormat.Pdf);
 
+        [RelayCommand]
+        private async Task CopySavedPathAsync()
+        {
+            if (!string.IsNullOrEmpty(LastSavedPath))
+            {
+                await Clipboard.Default.SetTextAsync(LastSavedPath);
+                StatusMessage = "Path copied to clipboard!";
+            }
+        }
+
         private async Task ExportAsync(ExportFormat fmt)
         {
             if (_lastResult == null) { StatusMessage = "Run a scan first."; return; }
             try
             {
                 var path = await _export.ExportAsync(new[] { _lastResult }, fmt, "portscan");
+                LastSavedPath = path;
                 StatusMessage = $"Saved: {path}";
             }
             catch (Exception ex)

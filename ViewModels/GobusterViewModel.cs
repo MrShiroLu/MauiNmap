@@ -24,6 +24,12 @@ namespace NmapMaui.ViewModels
         [ObservableProperty] private string statusMessage = string.Empty;
         [ObservableProperty] private bool useRemoteApi;
 
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(HasSavedPath))]
+        private string lastSavedPath = string.Empty;
+
+        public bool HasSavedPath => !string.IsNullOrEmpty(LastSavedPath);
+
         public GobusterViewModel(IGobusterService gobuster, IApiClient api, AuthService auth, DatabaseService db, IExportService export, ILoggingService logging)
         {
             _gobuster = gobuster;
@@ -35,6 +41,26 @@ namespace NmapMaui.ViewModels
         }
 
         [RelayCommand]
+        private async Task PickWordlistFileAsync()
+        {
+            try
+            {
+                var result = await FilePicker.Default.PickAsync(new PickOptions
+                {
+                    PickerTitle = "Select Wordlist File"
+                });
+                if (result != null)
+                {
+                    Wordlist = result.FullPath;
+                }
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = $"File picker error: {ex.Message}";
+            }
+        }
+
+        [RelayCommand]
         private async Task ScanAsync()
         {
             if (_auth.CurrentUser == null) { StatusMessage = "Please log in."; return; }
@@ -42,6 +68,7 @@ namespace NmapMaui.ViewModels
             { StatusMessage = "URL and wordlist required."; return; }
 
             _db.SetCurrentUser(_auth.CurrentUser.Username, _auth.CurrentUser.Id);
+            LastSavedPath = string.Empty;
             IsBusy = true;
             Output = string.Empty;
 
@@ -100,12 +127,23 @@ namespace NmapMaui.ViewModels
         [RelayCommand] private Task ExportCsvAsync() => ExportAsync(ExportFormat.Csv);
         [RelayCommand] private Task ExportPdfAsync() => ExportAsync(ExportFormat.Pdf);
 
+        [RelayCommand]
+        private async Task CopySavedPathAsync()
+        {
+            if (!string.IsNullOrEmpty(LastSavedPath))
+            {
+                await Clipboard.Default.SetTextAsync(LastSavedPath);
+                StatusMessage = "Path copied to clipboard!";
+            }
+        }
+
         private async Task ExportAsync(ExportFormat fmt)
         {
             if (_lastResult == null) { StatusMessage = "Run a scan first."; return; }
             try
             {
                 var path = await _export.ExportAsync(new[] { _lastResult }, fmt, "gobuster");
+                LastSavedPath = path;
                 StatusMessage = $"Saved: {path}";
             }
             catch (Exception ex) { StatusMessage = $"Export error: {ex.Message}"; }

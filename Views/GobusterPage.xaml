@@ -10,7 +10,10 @@
                 <VerticalStackLayout Spacing="15">
                     <Label Text="Gobuster (Directory Buster)" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" TextColor="#00BFAE"/>
                     <Entry Text="{Binding Url}" Placeholder="Target URL" BackgroundColor="#2E323D" TextColor="White"/>
-                    <Entry Text="{Binding Wordlist}" Placeholder="Wordlist path" BackgroundColor="#2E323D" TextColor="White"/>
+                     <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                        <Entry Grid.Column="0" Text="{Binding Wordlist}" Placeholder="Wordlist path (e.g., C:\tools\common.txt)" BackgroundColor="#2E323D" TextColor="White"/>
+                        <Button Grid.Column="1" Text="Browse" BackgroundColor="#00BFAE" TextColor="White" HeightRequest="40" Padding="12,0" FontSize="12" CornerRadius="6" Command="{Binding PickWordlistFileCommand}"/>
+                    </Grid>
                     <HorizontalStackLayout Spacing="10" VerticalOptions="Center" HorizontalOptions="Center">
                         <Label Text="Remote Scan (Minimal API):" VerticalOptions="Center" TextColor="White"/>
                         <Switch IsToggled="{Binding UseRemoteApi}" OnColor="#00BFAE"/>
@@ -24,7 +27,10 @@
                         <Button Grid.Column="1" Text="Export CSV" BackgroundColor="#00BFAE" TextColor="White" Command="{Binding ExportCsvCommand}"/>
                         <Button Grid.Column="2" Text="Export PDF" BackgroundColor="#00BFAE" TextColor="White" Command="{Binding ExportPdfCommand}"/>
                     </Grid>
-                    <Label Text="{Binding StatusMessage}" TextColor="#00BFAE" FontSize="12"/>
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10" VerticalOptions="Center">
+                        <Label Grid.Column="0" Text="{Binding StatusMessage}" TextColor="#00BFAE" FontSize="12" VerticalOptions="Center" LineBreakMode="CharacterWrap"/>
+                        <Button Grid.Column="1" Text="Copy Path" IsVisible="{Binding HasSavedPath}" BackgroundColor="#00BFAE" TextColor="White" HeightRequest="32" Padding="12,0" FontSize="11" CornerRadius="6" Command="{Binding CopySavedPathCommand}"/>
+                    </Grid>
                 </VerticalStackLayout>
             </Frame>
         </VerticalStackLayout>
