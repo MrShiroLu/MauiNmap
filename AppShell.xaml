@@ -5,7 +5,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:NmapMaui.Views"
     xmlns:local="clr-namespace:NmapMaui"
-    Shell.TabBarIsVisible="False">
+    Shell.TabBarIsVisible="False"
+    FlyoutBehavior="Disabled">
 
     <ShellContent
         Title="Login"
@@ -14,61 +15,61 @@
         FlyoutItemIsVisible="False" />
 
     
-    <FlyoutItem Title="Dashboard" Icon="home.png">
+    <FlyoutItem Title="Dashboard" Icon="home.png" IsVisible="False">
         <ShellContent
             ContentTemplate="{DataTemplate local:MainPage}"
             Route="MainPage" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Network Tools" Icon="network.png">
+    <FlyoutItem Title="Network Tools" Icon="network.png" IsVisible="False">
         <ShellContent
             ContentTemplate="{DataTemplate local:NetworkToolsPage}"
             Route="NetworkToolsPage" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Crypto Tools" Icon="lock.png">
+    <FlyoutItem Title="Crypto Tools" Icon="lock.png" IsVisible="False">
         <ShellContent
             ContentTemplate="{DataTemplate local:CryptographyToolsPage}"
             Route="CryptographyToolsPage" />
     </FlyoutItem>
     
-    <FlyoutItem Title="Password Tools" Icon="key.png">
+    <FlyoutItem Title="Password Tools" Icon="key.png" IsVisible="False">
         <ShellContent
             ContentTemplate="{DataTemplate local:PasswordToolsPage}"
             Route="PasswordToolsPage" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Database Control" Icon="database.png">
+    <FlyoutItem Title="Database Control" Icon="database.png" IsVisible="False">
         <ShellContent
             ContentTemplate="{DataTemplate local:DatabaseControlPage}"
             Route="DatabaseControlPage" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Activity Logs" Icon="database.png">
+    <FlyoutItem Title="Activity Logs" Icon="database.png" IsVisible="False">
         <ShellContent
             ContentTemplate="{DataTemplate views:LogsPage}"
             Route="LogsPage" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Scheduled Scans" Icon="network.png">
+    <FlyoutItem Title="Scheduled Scans" Icon="network.png" IsVisible="False">
         <ShellContent
             ContentTemplate="{DataTemplate views:SchedulerPage}"
             Route="SchedulerPage" />
     </FlyoutItem>
 
-    <FlyoutItem Title="API Settings" Icon="network.png">
+    <FlyoutItem Title="API Settings" Icon="network.png" IsVisible="False">
         <ShellContent
             ContentTemplate="{DataTemplate views:ApiSettingsPage}"
             Route="ApiSettingsPage" />
     </FlyoutItem>
     
-    <FlyoutItem Title="Change Password" Icon="key.png">
+    <FlyoutItem Title="Change Password" Icon="key.png" IsVisible="False">
         <ShellContent
             ContentTemplate="{DataTemplate views:ChangePasswordPage}"
             Route="ChangePasswordPage" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Logout" Icon="logout.png">
+    <FlyoutItem Title="Logout" Icon="logout.png" IsVisible="False">
         <ShellContent
             ContentTemplate="{DataTemplate views:LoginPage}"
             Route="LogoutPage" />
