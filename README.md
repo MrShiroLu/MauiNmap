@@ -1,121 +1,129 @@
-# NmapMaui
+# NmapMaui - Desktop Security and Network Diagnostics Suite
 
-NmapMaui is a cross-platform .NET MAUI application that provides a set of network and cryptography tools, including hash calculation and verification, password management, and more. The app is designed with a modern UI and supports Windows, Android, iOS, and MacCatalyst platforms.
+NmapMaui is a cross-platform desktop application built with .NET MAUI that provides a comprehensive control panel for network diagnostics and cryptography utilities. 
 
-## Features
-
-- **Hash Calculator Page:**
-    - Hash Calculation
-    - Hash Verification
-
-- **Password Management:**
-    - Login Page
-    - Register Page
-    - Change Password Page
-
-- **Base64 Tool Page:**
-    - Base64 Encode
-    - Base64 Decode
-
-- **Cryptography Tools:**
-    - Encryption Tool
-    - Decryption Tool
-
-- **Password Tools:**
-    - Password Generator
-    - Password Strength Checker
-    - Password Leak Checker
-
-- **Network Tools:**
-    - Ping Tool
-    - Port Scanner
-    - DNS Lookup Tool
-
-- **Database Integration:**
-    - Local SQLite Database Logging
-    - Operation History
+Designed for systems analysts, network engineers, and security professionals, NmapMaui features a high-performance, dark cyber-terminal theme. The application compiles natively for Windows, macOS, iOS, and Android.
 
 ---
 
-## Dashboard Sections & Their Tools
+## Technical Design & Visual Theme
 
-### Network Tools
-- **Ping Tool:** Test the reachability and latency of a host (IP address or domain) to diagnose network issues.
-- **Port Scanner:** Scan a range of ports on a host to see which ones are open, useful for security and network analysis.
-- **DNS Lookup Tool:** Query the IP address and DNS records of a domain name for DNS troubleshooting and configuration checks.
+The user interface utilizes a customized, professional cybersecurity terminal aesthetic:
+* **Typography**: Integrated with the Google Fonts monospaced typeface **IBM Plex Mono** across all native control elements, entries, log outputs, and labels to ensure maximum technical readability.
+* **Color System**: Curated, high-contrast dark theme tokens:
+  * **Primary Accents**: Neon Cyber Yellow (`#FFEF46`)
+  * **Main Background**: Solid Pitch Black (`#000000`)
+  * **Layered Containers**: Solid Obsidian Charcoal (`#0E0E10`)
+  * **Core Reading Text**: Pure White (`#FFFFFF`) and High-Contrast Silver (`#E5E5EA`)
+* **Background Controls**: Matrix visual backgrounds are rendered strictly on the entry panels (Login Gate and MainPage Dashboard). Tool sub-pages automatically fall back to solid black layouts to ensure absolute visual clarity during dense diagnostic sessions.
 
-### Crypto Tools
-- **Hash Calculator:** Generate hashes (MD5, SHA1, SHA256, SHA384, SHA512) for any text, or verify if a text matches a given hash.
-- **Encryption Tool:** Encrypt text using a user-provided key.
-- **Decryption Tool:** Decrypt previously encrypted text using the same key.
+---
 
-### Password Tools
-- **Password Generator:** Create strong, random passwords with customizable length and character types.
-- **Password Strength Checker:** Analyze the strength of a password and get suggestions for improvement.
-- **Password Leak Checker:** Check if a password has appeared in known data breaches.
+## Authentication & Security Rules
 
-### Database Control
-- **Database CRUD Operations:** Add, delete, update, and list records in the app's database. Manage your data and view operation history.
+The authentication layers in the client application and the API backend enforce standard security validation rules:
+1. **Username Validation**:
+   - Minimum username length is restricted to **3 characters** for flexibility.
+2. **Password Complexity**:
+   - Must be at least **8 characters** in length.
+   - Must contain at least **1 uppercase letter** (`A-Z`).
+   - Must contain at least **1 numeric digit** (`0-9`).
+   - *These criteria are enforced uniformly across Registration, API connections, and Password Updates.*
 
-### Change Password
-- **Change your current password:** Update your account password by entering your old password and confirming the new one for better security.
+---
 
-## Getting Started
+## Local Document Exporting
+
+All diagnostic and tool scan outputs can be exported locally in JSON, CSV, and PDF formats:
+* **Output Path**: Automatically saved inside a local folder named `Documents` created at the root directory of the project.
+* **Streamlined Flow**: The Windows `FileSavePicker` dial is bypassed, providing a silent and fast file generation mechanism.
+* **Repository Exclusions**: The local `/Documents` directory is registered in `.gitignore` to prevent any exported data from being tracked by git.
+
+---
+
+## Tool Directory
+
+### Network Diagnostics
+* **Port Scanner**: Audits target hosts asynchronously to identify active TCP ports.
+* **ICMP Ping**: Dispatches ICMP echo requests to measure target network latency and availability.
+* **DNS Resolver**: Queries A and AAAA records of a domain for name resolution checks.
+* **Gobuster Web**: Enumerates web directories and fuzzer subdomains via HTTP endpoint testing.
+* **Netcat Utility**: Establishes raw TCP connections, performs socket listening, and grabs port banners.
+
+### Cryptographic Utilities
+* **Hash Calculator**: Computes and verifies checksum algorithms including MD5, SHA-1, SHA-256, and SHA-512.
+* **Base64 Coder**: Encodes raw text to Base64 format or decodes Base64 strings.
+* **Cipher Engine**: Encrypts and decrypts text using symmetric key algorithms.
+* **Credential Generator**: Generates high-entropy random passwords based on length and charset criteria.
+* **Strength Estimator**: Calculates complexity scores and cracks latency estimation.
+* **Breach Auditor**: Interfaces with the HIBP API to check if credentials appear in public data breaches.
+
+---
+
+## Installation & Running the Project
 
 ### Prerequisites
-- [.NET 9 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
-- Visual Studio 2022 or later (with MAUI workload installed)
-- (Optional) Android/iOS emulators for mobile testing
- 
-### Build and Run
+* [.NET 9 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
+* Visual Studio 2022 or VS Code (with MAUI workload configured)
+* SqlServer (For the API database backend)
 
-1. Clone the repository:
-   ```sh
-   git clone https://github.com/MrShiroLu/MauiNmap.git
-   cd NmapMaui
+---
+
+### Step 1: Run the Backend API Server
+The suite includes an ASP.NET Core minimal API backend to process remote scans and log database entries.
+
+1. Navigate to the API project folder:
+   ```powershell
+   cd NmapMaui.Api
    ```
-2. Restore dependencies:
-   ```sh
+2. Start the server using the .NET CLI:
+   ```powershell
+   dotnet run
+   ```
+   *(By default, the server listens at `http://localhost:5000`)*
+
+---
+
+### Step 2: Run the Desktop Client Application
+In another terminal session, navigate to the main directory of the project to launch the .NET MAUI desktop app.
+
+1. Restore project dependencies:
+   ```powershell
    dotnet restore
    ```
-3. Build the project:
-   ```sh
-   dotnet build
-   ```
-4. Run the app for your desired platform:
-   - Windows:
-     ```sh
+2. Run the application targeting your native operating system:
+   * **Windows**:
+     ```powershell
      dotnet run -f net9.0-windows10.0.19041.0
      ```
-   - Android:
-     ```sh
+   * **Android**:
+     ```powershell
      dotnet run -f net9.0-android
      ```
-   - iOS/MacCatalyst: (Requires macOS)
-     ```sh
-     dotnet run -f net9.0-ios
+   * **macOS / iOS**:
+     ```powershell
      dotnet run -f net9.0-maccatalyst
+     dotnet run -f net9.0-ios
      ```
 
-## Project Structure
+---
+
+## Directory Structure
 
 ```
-NmapMaui/
-├── Models/           # Data models (e.g., Hash, User)
-├── Services/         # Business logic and services (cryptography, database, auth, etc.)
-├── Views/            # UI pages (XAML)
-│   ├── HashCalculatorPage.xaml
-│   ├── Base64ToolPage.xaml
-│   ├── ChangePasswordPage.xaml
-│   ├── LoginPage.xaml
-│   ├── RegisterPage.xaml
-│   ├── DnsToolPage.xaml
-│   ├── PingToolPage.xaml
+MauiNmap/
+├── NmapMaui.Api/         # ASP.NET Core minimal API project
+│   ├── Program.cs        # Main entry, database configuration, and JWT middleware
 │   └── ...
-├── ViewModels/       # ViewModel classes for MVVM
-├── Resources/        # Images, fonts, and styles
-├── database/         # Local SQLite database
-├── App.xaml          # Application definition
-├── MauiProgram.cs    # App startup and DI
-└── NmapMaui.csproj   # Project file
-``` 
+├── Models/               # Data schema definitions for client models
+├── Services/             # Business logic layers (ExportService, AuthService, CryptoService)
+├── ViewModels/           # ViewModels for MVVM layout binding
+├── Views/                # XAML Pages (LoginPage, MainPage, sub-tool dashboards)
+├── Resources/
+│   ├── Fonts/            # Custom IBM Plex Mono TTF font files
+│   ├── Images/           # Design assets, system icons, and bg_cyber.png
+│   └── Styles/           # Main Colors.xaml & Styles.xaml files
+├── Documents/            # [Ignored] Automatically generated local report exports folder
+├── NmapMaui.csproj       # Main MAUI client project file
+└── .gitignore            # Excludes build assets, local dbs, and /Documents/
+```
