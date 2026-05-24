@@ -30,9 +30,9 @@ public partial class ChangePasswordPage : ContentPage
             return;
         }
 
-        if (NewPassword.Length < 8)
+        if (NewPassword.Length < 8 || !NewPassword.Any(char.IsUpper) || !NewPassword.Any(char.IsDigit))
         {
-            MessageLabel.Text = "New password must be at least 8 characters long.";
+            MessageLabel.Text = "New password must be at least 8 characters long, contain at least 1 uppercase letter and 1 digit.";
             return;
         }
 

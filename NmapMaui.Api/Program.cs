@@ -69,8 +69,11 @@ app.MapPost("/auth/register", async (RegisterRequest req, ApiDbContext db) =>
     if (string.IsNullOrWhiteSpace(req.Username) || string.IsNullOrWhiteSpace(req.Password))
         return Results.BadRequest(new { error = "Username and password are required." });
 
-    if (req.Username.Length < 8 || req.Password.Length < 8)
-        return Results.BadRequest(new { error = "Username and password must be at least 8 characters." });
+    if (req.Username.Length < 3)
+        return Results.BadRequest(new { error = "Username must be at least 3 characters." });
+
+    if (req.Password.Length < 8 || !req.Password.Any(char.IsUpper) || !req.Password.Any(char.IsDigit))
+        return Results.BadRequest(new { error = "Password must be at least 8 characters and contain at least 1 uppercase letter and 1 digit." });
 
     if (await db.Users.AnyAsync(u => u.Username == req.Username))
         return Results.Conflict(new { error = "Username already exists." });

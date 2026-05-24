@@ -55,9 +55,9 @@ public partial class LoginPage : ContentPage
             return;
         }
 
-        if (Username.Length < 8 || Password.Length < 8)
+        if (Username.Length < 3 || Password.Length < 8)
         {
-            MessageLabel.Text = "Username and password must be at least 8 characters long.";
+            MessageLabel.Text = "Username (min 3 chars) or password (min 8 chars) is invalid.";
             return;
         }
 
@@ -90,9 +90,15 @@ public partial class LoginPage : ContentPage
             return;
         }
 
-        if (Username.Length < 8 || Password.Length < 8)
+        if (Username.Length < 3)
         {
-            MessageLabel.Text = "Username and password must be at least 8 characters long.";
+            MessageLabel.Text = "Username must be at least 3 characters long.";
+            return;
+        }
+
+        if (Password.Length < 8 || !Password.Any(char.IsUpper) || !Password.Any(char.IsDigit))
+        {
+            MessageLabel.Text = "Password must be >= 8 characters and contain at least 1 uppercase letter and 1 digit.";
             return;
         }
 

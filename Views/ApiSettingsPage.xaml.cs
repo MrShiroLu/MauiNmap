@@ -82,9 +82,19 @@ public partial class ApiSettingsPage : ContentPage
             StatusLabel.TextColor = Colors.OrangeRed;
             return false;
         }
-        if (ApiUsernameEntry.Text.Length < 8 || ApiPasswordEntry.Text.Length < 8)
+        string username = ApiUsernameEntry.Text.Trim();
+        string password = ApiPasswordEntry.Text;
+
+        if (username.Length < 3)
         {
-            StatusLabel.Text      = "Username and password must be at least 8 characters.";
+            StatusLabel.Text      = "Username must be at least 3 characters.";
+            StatusLabel.TextColor = Colors.OrangeRed;
+            return false;
+        }
+
+        if (password.Length < 8 || !password.Any(char.IsUpper) || !password.Any(char.IsDigit))
+        {
+            StatusLabel.Text      = "Password must be >= 8 chars with 1 uppercase & 1 digit.";
             StatusLabel.TextColor = Colors.OrangeRed;
             return false;
         }
