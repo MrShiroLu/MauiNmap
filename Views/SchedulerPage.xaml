@@ -5,16 +5,16 @@
              Title="Scheduled Scans">
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="15">
-            <Label Text="Periodic Nmap Scheduler" FontSize="24" FontAttributes="Bold" TextColor="#00BFAE" HorizontalOptions="Center"/>
-            <Entry x:Name="HostEntry" Placeholder="Host" BackgroundColor="#2E323D" TextColor="White"/>
+            <Label Text="Periodic Nmap Scheduler" FontSize="24" FontAttributes="Bold" TextColor="{StaticResource Primary}" HorizontalOptions="Center"/>
+            <Entry x:Name="HostEntry" Placeholder="Host" BackgroundColor="{StaticResource CardLight}" TextColor="White"/>
             <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
-                <Entry x:Name="StartPortEntry" Placeholder="Start port" Keyboard="Numeric" BackgroundColor="#2E323D" TextColor="White"/>
-                <Entry x:Name="EndPortEntry" Grid.Column="1" Placeholder="End port" Keyboard="Numeric" BackgroundColor="#2E323D" TextColor="White"/>
+                <Entry x:Name="StartPortEntry" Placeholder="Start port" Keyboard="Numeric" BackgroundColor="{StaticResource CardLight}" TextColor="White"/>
+                <Entry x:Name="EndPortEntry" Grid.Column="1" Placeholder="End port" Keyboard="Numeric" BackgroundColor="{StaticResource CardLight}" TextColor="White"/>
             </Grid>
-            <Entry x:Name="CronEntry" Placeholder="Cron (e.g. 0 0/30 * * * ?)" Text="0 0/30 * * * ?" BackgroundColor="#2E323D" TextColor="White"/>
+            <Entry x:Name="CronEntry" Placeholder="Cron (e.g. 0 0/30 * * * ?)" Text="0 0/30 * * * ?" BackgroundColor="{StaticResource CardLight}" TextColor="White"/>
             <Label TextColor="LightGray" FontSize="11" Text="Cron format: seconds minutes hours day-of-month month day-of-week. Example '0 0/30 * * * ?' = every 30 minutes."/>
-            <Button Text="Schedule Job" BackgroundColor="#536DFE" TextColor="White" Clicked="OnScheduleClicked"/>
-            <Label x:Name="StatusLabel" TextColor="#00BFAE"/>
+            <Button Text="Schedule Job"  Clicked="OnScheduleClicked"/>
+            <Label x:Name="StatusLabel" TextColor="{StaticResource Primary}"/>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

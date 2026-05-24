@@ -5,14 +5,14 @@
              Title="Activity Logs">
     <Grid Padding="20" RowDefinitions="Auto,*">
         <HorizontalStackLayout Spacing="10">
-            <Button Text="Refresh" BackgroundColor="#536DFE" TextColor="White" Clicked="OnRefreshClicked"/>
+            <Button Text="Refresh"  Clicked="OnRefreshClicked"/>
         </HorizontalStackLayout>
         <CollectionView Grid.Row="1" x:Name="LogList" Margin="0,15,0,0">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame BackgroundColor="#23272F" BorderColor="#00BFAE" CornerRadius="6" Padding="10" Margin="0,5">
+                    <Frame BackgroundColor="{StaticResource CardBackground}" BorderColor="{StaticResource Primary}" CornerRadius="4" Padding="10" Margin="0,5">
                         <VerticalStackLayout>
-                            <Label TextColor="#00BFAE" FontAttributes="Bold" Text="{Binding Action}" />
+                            <Label TextColor="{StaticResource Primary}" FontAttributes="Bold" Text="{Binding Action}" />
                             <Label TextColor="White" FontSize="12" Text="{Binding Category}" />
                             <Label TextColor="LightGray" FontSize="11" Text="{Binding Details}" />
                             <Label TextColor="Gray" FontSize="10" Text="{Binding Timestamp}" />

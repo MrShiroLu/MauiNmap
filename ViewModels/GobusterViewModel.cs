@@ -143,6 +143,11 @@ namespace NmapMaui.ViewModels
             try
             {
                 var path = await _export.ExportAsync(new[] { _lastResult }, fmt, "gobuster");
+                if (string.IsNullOrEmpty(path))
+                {
+                    StatusMessage = "Export cancelled.";
+                    return;
+                }
                 LastSavedPath = path;
                 StatusMessage = $"Saved: {path}";
             }

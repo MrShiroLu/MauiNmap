@@ -76,15 +76,15 @@
     </FlyoutItem>
 
     <Shell.FlyoutHeader>
-        <Grid BackgroundColor="#181A20" HeightRequest="200">
-            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
-                <Label Text="Security Tools"
-                       FontSize="24"
+        <Grid BackgroundColor="{StaticResource CardBackground}" HeightRequest="200">
+            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="5">
+                <Label Text="> SECURITY.TOOLS"
+                       FontSize="20"
                        FontAttributes="Bold"
-                       TextColor="#00BFAE"/>
-                <Label Text="Network &amp; Crypto Tools"
-                       FontSize="16"
-                       TextColor="#00BFAE"/>
+                       TextColor="{StaticResource Primary}"/>
+                <Label Text="[ Network &amp; Crypto ]"
+                       FontSize="13"
+                       TextColor="{StaticResource TextSecondary}"/>
             </VerticalStackLayout>
         </Grid>
     </Shell.FlyoutHeader>

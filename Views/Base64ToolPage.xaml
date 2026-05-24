@@ -7,16 +7,16 @@
 
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="20">
-            <Frame BackgroundColor="#23272F" BorderColor="#00BFAE" CornerRadius="10" Padding="15">
+            <Frame BackgroundColor="{StaticResource CardBackground}" BorderColor="{StaticResource Primary}" CornerRadius="4" Padding="15">
                 <VerticalStackLayout Spacing="15">
-                    <Label Text="Base64 Tool" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" TextColor="#00BFAE"/>
-                    <Editor Text="{Binding Input}" HeightRequest="100" Placeholder="Enter text to encode/decode" BackgroundColor="#2E323D"/>
+                    <Label Text="Base64 Tool" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" TextColor="{StaticResource Primary}"/>
+                    <Editor Text="{Binding Input}" HeightRequest="100" Placeholder="Enter text to encode/decode" BackgroundColor="{StaticResource CardLight}"/>
                     <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
-                        <Button Text="Encode" BackgroundColor="#536DFE" TextColor="#FFFFFF" Opacity="0.9" Command="{Binding EncodeCommand}"/>
-                        <Button Text="Decode" BackgroundColor="#536DFE" TextColor="#FFFFFF" Opacity="0.9" Command="{Binding DecodeCommand}"/>
+                        <Button Text="Encode"  Command="{Binding EncodeCommand}"/>
+                        <Button Text="Decode"  Command="{Binding DecodeCommand}"/>
                     </HorizontalStackLayout>
                     <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" HorizontalOptions="Center"/>
-                    <Editor Text="{Binding Result}" HeightRequest="200" IsReadOnly="True" BackgroundColor="#181A20" TextColor="White"/>
+                    <Editor Text="{Binding Result}" HeightRequest="200" IsReadOnly="True" BackgroundColor="{StaticResource CardBackground}" TextColor="White"/>
                 </VerticalStackLayout>
             </Frame>
         </VerticalStackLayout>

@@ -3,14 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NmapMaui.NetworkToolsPage">
 
-    <Grid RowDefinitions="Auto,*" Padding="20">
-        <Label Text="Network Tools"
-               TextColor="#FFFFFF"
-               FontSize="24"
-               FontAttributes="Bold"
-               HorizontalOptions="Center"
-               Margin="0,0,0,20"/>
+    <Grid RowDefinitions="Auto,*" Padding="25" BackgroundColor="Transparent">
+        <!-- Header -->
+        <VerticalStackLayout Grid.Row="0" HorizontalOptions="Center" Margin="0,10,0,30" Spacing="5">
+            <Label Text="> NETWORK_DIAGNOSTICS"
+                   TextColor="{StaticResource Primary}"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"/>
+            <Label Text="Active port scanners, host ICMP pings, DNS resolvers &amp; web enumeration"
+                   TextColor="{StaticResource TextSecondary}"
+                   FontSize="13"
+                   HorizontalOptions="Center"/>
+        </VerticalStackLayout>
 
+        <!-- Tool Grid -->
         <Grid Grid.Row="1" 
               RowDefinitions="*,*"
               ColumnDefinitions="*,*,*"
@@ -18,100 +25,97 @@
               ColumnSpacing="20">
 
             <!-- Port Scanner -->
-            <Frame Grid.Row="0" Grid.Column="0"
-                   BackgroundColor="#23272F"                
-                   BorderColor="#00BFAE"
-                   CornerRadius="10"
-                   Padding="15">
-                <VerticalStackLayout Spacing="10">
-                    <Label Text="Port Scanner"
-                           TextColor="#00BFAE"
+            <Frame Grid.Row="0" Grid.Column="0">
+                <VerticalStackLayout Spacing="12" VerticalOptions="Center">
+                    <Label Text="[+] PORT_SCANNER"
+                           TextColor="{StaticResource Primary}"
                            FontSize="18"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"/>
-                    <Label Text="Scan ports on a target host"
-                           FontSize="14"
+                    <Label Text="Audit target endpoints to determine active TCP ports."
+                           TextColor="{StaticResource TextSecondary}"
+                           FontSize="13"
+                           HorizontalTextAlignment="Center"
                            HorizontalOptions="Center"/>
-                    <Button Text="Open"
-                            FontAttributes="Bold"                            
-                            BackgroundColor="#536DFE"
-                            Opacity="0.9"
-                            TextColor="#FFFFFF"
-                            Clicked="OnPortScannerClicked"/>
+                    <Button Text="EXECUTE"
+                            Clicked="OnPortScannerClicked"
+                            Margin="0,10,0,0"/>
                 </VerticalStackLayout>
             </Frame>
 
             <!-- Ping Tool -->
-            <Frame Grid.Row="0" Grid.Column="1"
-                   BackgroundColor="#23272F"
-                   BorderColor="#00BFAE"
-                   CornerRadius="10"
-                   Padding="15">
-                <VerticalStackLayout Spacing="10">
-                    <Label Text="Ping Tool"
-                           TextColor="#00BFAE"
+            <Frame Grid.Row="0" Grid.Column="1">
+                <VerticalStackLayout Spacing="12" VerticalOptions="Center">
+                    <Label Text="[+] ICMP_PING"
+                           TextColor="{StaticResource Primary}"
                            FontSize="18"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"/>
-                    <Label Text="Check host availability"
-                           FontSize="14"
+                    <Label Text="Send ICMP echo packets to test network connection latency."
+                           TextColor="{StaticResource TextSecondary}"
+                           FontSize="13"
+                           HorizontalTextAlignment="Center"
                            HorizontalOptions="Center"/>
-                    <Button Text="Open"
-                            FontAttributes="Bold"
-                            Opacity="0.9"
-                            BackgroundColor="#536DFE"
-                            TextColor="#FFFFFF"
-                            Clicked="OnPingToolClicked"/>
-                </VerticalStackLayout>
-            </Frame>
-
-            <!-- Gobuster -->
-            <Frame Grid.Row="1" Grid.Column="0"
-                   BackgroundColor="#23272F"
-                   BorderColor="#00BFAE"
-                   CornerRadius="10"
-                   Padding="15">
-                <VerticalStackLayout Spacing="10">
-                    <Label Text="Gobuster" TextColor="#00BFAE" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Text="Directory busting" FontSize="14" HorizontalOptions="Center"/>
-                    <Button Text="Open" FontAttributes="Bold" BackgroundColor="#536DFE" Opacity="0.9" TextColor="#FFFFFF" Clicked="OnGobusterClicked"/>
-                </VerticalStackLayout>
-            </Frame>
-
-            <!-- Netcat -->
-            <Frame Grid.Row="1" Grid.Column="1"
-                   BackgroundColor="#23272F"
-                   BorderColor="#00BFAE"
-                   CornerRadius="10"
-                   Padding="15">
-                <VerticalStackLayout Spacing="10">
-                    <Label Text="Netcat" TextColor="#00BFAE" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Text="TCP banner grab" FontSize="14" HorizontalOptions="Center"/>
-                    <Button Text="Open" FontAttributes="Bold" BackgroundColor="#536DFE" Opacity="0.9" TextColor="#FFFFFF" Clicked="OnNetcatClicked"/>
+                    <Button Text="EXECUTE"
+                            Clicked="OnPingToolClicked"
+                            Margin="0,10,0,0"/>
                 </VerticalStackLayout>
             </Frame>
 
             <!-- DNS Lookup -->
-            <Frame Grid.Row="0" Grid.Column="2"
-                   BackgroundColor="#23272F"
-                   BorderColor="#00BFAE"
-                   CornerRadius="10"
-                   Padding="15">
-                <VerticalStackLayout Spacing="10">
-                    <Label Text="DNS Lookup"
-                           TextColor="#00BFAE"
+            <Frame Grid.Row="0" Grid.Column="2">
+                <VerticalStackLayout Spacing="12" VerticalOptions="Center">
+                    <Label Text="[+] DNS_RESOLVER"
+                           TextColor="{StaticResource Primary}"
                            FontSize="18"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"/>
-                    <Label Text="Resolve hostnames to IP"
-                           FontSize="14"
+                    <Label Text="Perform A/AAAA record DNS resolutions for domains."
+                           TextColor="{StaticResource TextSecondary}"
+                           FontSize="13"
+                           HorizontalTextAlignment="Center"
                            HorizontalOptions="Center"/>
-                    <Button Text="Open"
-                            FontAttributes="Bold"
-                            Opacity="0.9"
-                            BackgroundColor="#536DFE"
-                            TextColor="#FFFFFF"
-                            Clicked="OnDnsLookupClicked"/>
+                    <Button Text="EXECUTE"
+                            Clicked="OnDnsLookupClicked"
+                            Margin="0,10,0,0"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Gobuster -->
+            <Frame Grid.Row="1" Grid.Column="0">
+                <VerticalStackLayout Spacing="12" VerticalOptions="Center">
+                    <Label Text="[+] GOBUSTER_WEB"
+                           TextColor="{StaticResource Primary}"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"/>
+                    <Label Text="Fuzz directories and subdomains via HTTP endpoint checks."
+                           TextColor="{StaticResource TextSecondary}"
+                           FontSize="13"
+                           HorizontalTextAlignment="Center"
+                           HorizontalOptions="Center"/>
+                    <Button Text="EXECUTE"
+                            Clicked="OnGobusterClicked"
+                            Margin="0,10,0,0"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Netcat -->
+            <Frame Grid.Row="1" Grid.Column="1">
+                <VerticalStackLayout Spacing="12" VerticalOptions="Center">
+                    <Label Text="[+] NETCAT_UTILITY"
+                           TextColor="{StaticResource Primary}"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"/>
+                    <Label Text="Establish raw TCP connections or grab active port banners."
+                           TextColor="{StaticResource TextSecondary}"
+                           FontSize="13"
+                           HorizontalTextAlignment="Center"
+                           HorizontalOptions="Center"/>
+                    <Button Text="EXECUTE"
+                            Clicked="OnNetcatClicked"
+                            Margin="0,10,0,0"/>
                 </VerticalStackLayout>
             </Frame>
         </Grid>

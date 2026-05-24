@@ -6,20 +6,20 @@
              x:DataType="vm:NetcatViewModel">
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="20">
-            <Frame BackgroundColor="#23272F" BorderColor="#00BFAE" CornerRadius="10" Padding="15">
+            <Frame BackgroundColor="{StaticResource CardBackground}" BorderColor="{StaticResource Primary}" CornerRadius="4" Padding="15">
                 <VerticalStackLayout Spacing="15">
-                    <Label Text="Netcat (Banner Grab)" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" TextColor="#00BFAE"/>
-                    <Entry Text="{Binding Host}" Placeholder="Host" BackgroundColor="#2E323D" TextColor="White"/>
-                    <Entry Text="{Binding Port}" Placeholder="Port" Keyboard="Numeric" BackgroundColor="#2E323D" TextColor="White"/>
-                    <Button Text="Connect" BackgroundColor="#536DFE" TextColor="#FFFFFF" Command="{Binding ConnectCommand}"/>
+                    <Label Text="Netcat (Banner Grab)" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" TextColor="{StaticResource Primary}"/>
+                    <Entry Text="{Binding Host}" Placeholder="Host" BackgroundColor="{StaticResource CardLight}" TextColor="White"/>
+                    <Entry Text="{Binding Port}" Placeholder="Port" Keyboard="Numeric" BackgroundColor="{StaticResource CardLight}" TextColor="White"/>
+                    <Button Text="Connect"  Command="{Binding ConnectCommand}"/>
                     <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" HorizontalOptions="Center"/>
-                    <Editor Text="{Binding Output}" HeightRequest="350" IsReadOnly="True" BackgroundColor="#181a20"/>
+                    <Editor Text="{Binding Output}" HeightRequest="350" IsReadOnly="True" BackgroundColor="{StaticResource CardBackground}"/>
                     <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10">
-                        <Button Grid.Column="0" Text="Export JSON" BackgroundColor="#00BFAE" TextColor="White" Command="{Binding ExportJsonCommand}"/>
-                        <Button Grid.Column="1" Text="Export CSV" BackgroundColor="#00BFAE" TextColor="White" Command="{Binding ExportCsvCommand}"/>
-                        <Button Grid.Column="2" Text="Export PDF" BackgroundColor="#00BFAE" TextColor="White" Command="{Binding ExportPdfCommand}"/>
+                        <Button Grid.Column="0" Text="Export JSON"  Command="{Binding ExportJsonCommand}"/>
+                        <Button Grid.Column="1" Text="Export CSV"  Command="{Binding ExportCsvCommand}"/>
+                        <Button Grid.Column="2" Text="Export PDF"  Command="{Binding ExportPdfCommand}"/>
                     </Grid>
-                    <Label Text="{Binding StatusMessage}" TextColor="#00BFAE" FontSize="12"/>
+                    <Label Text="{Binding StatusMessage}" TextColor="{StaticResource Primary}" FontSize="12"/>
                 </VerticalStackLayout>
             </Frame>
         </VerticalStackLayout>

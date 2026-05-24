@@ -2,48 +2,71 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NmapMaui.Views.LoginPage"
-             Title=" "> 
+             Title=" "
+             Shell.NavBarIsVisible="False"
+             BackgroundImageSource="bg_cyber.png"> 
 
-    <ScrollView>
-        <VerticalStackLayout Spacing="25" Padding="30,0" VerticalOptions="Center">
-            <Image Source="logo.png"
-                   SemanticProperties.Description="!Make GUI Great Again!"
-                   HeightRequest="400"
-                   HorizontalOptions="Center" />
+    <ScrollView BackgroundColor="Transparent">
+        <VerticalStackLayout Spacing="25" Padding="25" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="480">
+            <!-- Authentication Card -->
+            <Frame Padding="20">
+                <VerticalStackLayout Spacing="20">
+                    <Label Text="> SECURE_AUTH_GATE"
+                           TextColor="{StaticResource Primary}"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"/>
+                    
+                    <Label Text="ENTER SESSION CREDENTIALS"
+                           TextColor="{StaticResource TextSecondary}"
+                           FontSize="12"
+                           HorizontalOptions="Center"
+                           Margin="0,-10,0,0"/>
 
-            <Entry x:Name="UsernameEntry"
-                   Placeholder="Username"
-                   Text="{Binding Username}"
-                   SemanticProperties.Hint="Enter your username"/>
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="USERNAME:" FontSize="12" TextColor="{StaticResource Primary}"/>
+                        <Entry x:Name="UsernameEntry"
+                               Placeholder="Username"
+                               Text="{Binding Username}"
+                               BackgroundColor="{StaticResource CardLight}"
+                               SemanticProperties.Hint="Enter your username"/>
+                        
+                        <Label Text="PASSWORD:" FontSize="12" TextColor="{StaticResource Primary}" Margin="0,5,0,0"/>
+                        <Entry x:Name="PasswordEntry"
+                               Placeholder="Password"
+                               IsPassword="True"
+                               Text="{Binding Password}"
+                               BackgroundColor="{StaticResource CardLight}"
+                               SemanticProperties.Hint="Enter your password"/>
+                    </VerticalStackLayout>
 
-            <Entry x:Name="PasswordEntry"
-                   Placeholder="Password"
-                   IsPassword="True"
-                   Text="{Binding Password}"
-                   SemanticProperties.Hint="Enter your password"/>
+                    <!-- Authentication Buttons -->
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="15" Margin="0,10,0,0">
+                        <Button x:Name="LoginButton"
+                                Grid.Column="0"
+                                Text="ACCESS"
+                                Clicked="OnLoginClicked" />
 
-            <HorizontalStackLayout Spacing="25" Padding="30,0" HorizontalOptions="Center">
-                <Button x:Name="LoginButton"
-                    Text="Login"
-                    TextColor="White"
-                    FontAttributes="Bold"
-                    SemanticProperties.Hint="Click to login"
-                    Clicked="OnLoginClicked"
-                    HorizontalOptions="Center" />
-
-                <Button x:Name="RegisterButton"
-                    Text="Register"
-                    TextColor="White"
-                    FontAttributes="Bold"
-                    SemanticProperties.Hint="Click to register"
-                    Clicked="OnRegisterClicked"
-                    HorizontalOptions="Center" />
-            </HorizontalStackLayout>
+                        <Button x:Name="RegisterButton"
+                                Grid.Column="1"
+                                Text="REGISTER"
+                                Clicked="OnRegisterClicked" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
             
             <Label x:Name="MessageLabel"
                    Text=""
                    HorizontalOptions="Center"
-                   TextColor="Red"/>
+                   TextColor="#FF6B6B"
+                   FontSize="13"
+                   FontAttributes="Italic"/>
+
+            <Label Text="WARNING: AUTHORIZED USE ONLY. SESSIONS LOGGED."
+                   TextColor="{StaticResource TextSecondary}"
+                   FontSize="11"
+                   HorizontalOptions="Center"
+                   Margin="0,10,0,0"/>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage> 

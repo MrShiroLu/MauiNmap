@@ -2,26 +2,27 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NmapMaui.DatabaseControlPage"
-             BackgroundColor="#1E1E1E">
+             BackgroundColor="Transparent">
 
-    <Grid RowDefinitions="Auto,Auto,*" Padding="20">
+    <Grid RowDefinitions="Auto,Auto,*" Padding="25">
         <!-- Header -->
-        <Label Text="Database Control"
+        <Label Text="> DATABASE_CONTROL_PANEL"
+               TextColor="{StaticResource Primary}"
                FontSize="24"
                FontAttributes="Bold"
                HorizontalOptions="Center"
-               Margin="0,0,0,20"/>
+               Margin="0,10,0,25"/>
 
         <!-- Selection -->
         <Picker Grid.Row="1" 
                 x:Name="_tablePicker" 
                 Title="Select Table"
                 SelectedIndexChanged="OnTablePickerSelectedIndexChanged"
-                Margin="0,0,0,10"
-                WidthRequest="200"
+                Margin="0,0,0,15"
+                WidthRequest="250"
                 HorizontalOptions="Center"
-                TextColor="#FFFFFF"
-                BackgroundColor="#2D2D2D"/>
+                TextColor="{StaticResource TextPrimary}"
+                BackgroundColor="{StaticResource CardLight}"/>
 
         <!-- Scrollable Data Section -->
         <ScrollView Grid.Row="2" 

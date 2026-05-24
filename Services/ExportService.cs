@@ -22,23 +22,84 @@ namespace NmapMaui.Services
 
         public async Task<string> ExportAsync(IEnumerable<ScanResult> results, ExportFormat format, string baseFileName)
         {
-            var dir = FileSystem.AppDataDirectory;
-            Directory.CreateDirectory(dir);
             var ts = DateTime.Now.ToString("yyyyMMdd_HHmmss");
             var list = results.ToList();
+            string path = string.Empty;
+
+#if WINDOWS
+            path = await Microsoft.Maui.ApplicationModel.MainThread.InvokeOnMainThreadAsync<string>(async () =>
+            {
+                try
+                {
+                    var savePicker = new Windows.Storage.Pickers.FileSavePicker();
+                    savePicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary;
+
+                    string extension = format switch
+                    {
+                        ExportFormat.Json => ".json",
+                        ExportFormat.Csv => ".csv",
+                        ExportFormat.Pdf => ".pdf",
+                        _ => throw new ArgumentOutOfRangeException(nameof(format))
+                    };
+
+                    string choiceLabel = format switch
+                    {
+                        ExportFormat.Json => "JSON Document",
+                        ExportFormat.Csv => "CSV Document",
+                        ExportFormat.Pdf => "PDF Document",
+                        _ => "Document"
+                    };
+
+                    savePicker.FileTypeChoices.Add(choiceLabel, new List<string> { extension });
+                    savePicker.SuggestedFileName = $"{baseFileName}_{ts}";
+
+                    var mauiWindow = Microsoft.Maui.Controls.Application.Current?.Windows?.FirstOrDefault();
+                    if (mauiWindow == null)
+                        return string.Empty;
+
+                    var nativeWindow = mauiWindow.Handler?.PlatformView as Microsoft.UI.Xaml.Window;
+                    if (nativeWindow == null)
+                        return string.Empty;
+
+                    var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(nativeWindow);
+                    WinRT.Interop.InitializeWithWindow.Initialize(savePicker, hwnd);
+
+                    var file = await savePicker.PickSaveFileAsync();
+                    return file?.Path ?? string.Empty;
+                }
+                catch
+                {
+                    return string.Empty;
+                }
+            });
+#else
+            var dir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
+            Directory.CreateDirectory(dir);
+            string extension = format switch
+            {
+                ExportFormat.Json => ".json",
+                ExportFormat.Csv => ".csv",
+                ExportFormat.Pdf => ".pdf",
+                _ => throw new ArgumentOutOfRangeException(nameof(format))
+            };
+            path = Path.Combine(dir, $"{baseFileName}_{ts}{extension}");
+#endif
+
+            if (string.IsNullOrEmpty(path))
+            {
+                return string.Empty;
+            }
 
             switch (format)
             {
                 case ExportFormat.Json:
                 {
-                    var path = Path.Combine(dir, $"{baseFileName}_{ts}.json");
                     var json = JsonSerializer.Serialize(list, new JsonSerializerOptions { WriteIndented = true });
                     await File.WriteAllTextAsync(path, json);
                     return path;
                 }
                 case ExportFormat.Csv:
                 {
-                    var path = Path.Combine(dir, $"{baseFileName}_{ts}.csv");
                     var sb = new StringBuilder();
                     sb.AppendLine("Target,ScanType,ScanTime,IsSuccess,Result");
                     foreach (var r in list)
@@ -48,7 +109,6 @@ namespace NmapMaui.Services
                 }
                 case ExportFormat.Pdf:
                 {
-                    var path = Path.Combine(dir, $"{baseFileName}_{ts}.pdf");
                     Document.Create(container =>
                     {
                         container.Page(page =>

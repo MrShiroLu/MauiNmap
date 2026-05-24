@@ -1,157 +1,141 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="NmapMaui.MainPage">
+             x:Class="NmapMaui.MainPage"
+             BackgroundImageSource="bg_cyber.png">
 
-    <Grid RowDefinitions="Auto,*" Padding="20">
-        <Label Text="Security Tools Dashboard"
-               TextColor="#FFFFFF"
-               FontSize="24"
-               FontAttributes="Bold"
-               HorizontalOptions="Center"
-               Margin="0,0,0,20"/>
+    <Grid RowDefinitions="Auto,*" Padding="25" BackgroundColor="Transparent">
+        <!-- Dashboard Header -->
+        <VerticalStackLayout Grid.Row="0" HorizontalOptions="Center" Margin="0,10,0,30" Spacing="5">
+            <Label Text="> SECURITY_CONTROL_PANEL"
+                   TextColor="{StaticResource Primary}"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"/>
+            <Label Text="System diagnostics, cryptography &amp; security utilities"
+                   TextColor="{StaticResource TextSecondary}"
+                   FontSize="13"
+                   HorizontalOptions="Center"/>
+        </VerticalStackLayout>
 
+        <!-- Tool Grid -->
         <Grid Grid.Row="1" 
               RowDefinitions="*,*"
               ColumnDefinitions="*,*,*"
               RowSpacing="20"
               ColumnSpacing="20">
 
-            <Frame Grid.Row="0" Grid.Column="0"
-                   BackgroundColor="#23272F"                
-                   BorderColor="#00BFAE"
-                   CornerRadius="10"
-                   Padding="15">
-                <VerticalStackLayout Spacing="10">
-                    <Label Text="Network Tools"
-                           TextColor="#00BFAE"
+            <!-- Card: Network Tools -->
+            <Frame Grid.Row="0" Grid.Column="0">
+                <VerticalStackLayout Spacing="12" VerticalOptions="Center">
+                    <Label Text="[+] NETWORK_TOOLS"
+                           TextColor="{StaticResource Primary}"
                            FontSize="18"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"/>
-                    <Label Text="Analyze network components"
-                           FontSize="14"
+                    <Label Text="Scan ports, ping hosts, run DNS lookups &amp; packet diagnostics."
+                           TextColor="{StaticResource TextSecondary}"
+                           FontSize="13"
+                           HorizontalTextAlignment="Center"
                            HorizontalOptions="Center"/>
-                    <Button Text="Open"
-                            FontAttributes="Bold"                            
-                            BackgroundColor="#536DFE"
-                            Opacity="0.9"
-                            TextColor="#FFFFFF"
-                            Clicked="OnNetworkToolsClicked"/>
+                    <Button Text="EXECUTE"
+                            Clicked="OnNetworkToolsClicked"
+                            Margin="0,10,0,0"/>
                 </VerticalStackLayout>
             </Frame>
 
-            <Frame Grid.Row="0" Grid.Column="1"
-                   BackgroundColor="#23272F"
-                   BorderColor="#00BFAE"
-                   CornerRadius="10"
-                   Padding="15">
-                <VerticalStackLayout Spacing="10">
-                    <Label Text="Crypto Tools"
-                           TextColor="#00BFAE"
+            <!-- Card: Crypto Tools -->
+            <Frame Grid.Row="0" Grid.Column="1">
+                <VerticalStackLayout Spacing="12" VerticalOptions="Center">
+                    <Label Text="[+] CRYPTO_TOOLS"
+                           TextColor="{StaticResource Primary}"
                            FontSize="18"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"/>
-                    <Label Text="Check cryptographic utilities"
-                           FontSize="14"
+                    <Label Text="Hash calculations, symmetric encryption &amp; Base64 conversion."
+                           TextColor="{StaticResource TextSecondary}"
+                           FontSize="13"
+                           HorizontalTextAlignment="Center"
                            HorizontalOptions="Center"/>
-                    <Button Text="Open"
-                            FontAttributes="Bold"
-                            Opacity="0.9"
-                            BackgroundColor="#536DFE"
-                            TextColor="#FFFFFF"
-                            Clicked="OnCryptotoolsClicked"/>
+                    <Button Text="EXECUTE"
+                            Clicked="OnCryptotoolsClicked"
+                            Margin="0,10,0,0"/>
                 </VerticalStackLayout>
             </Frame>
 
-            <Frame Grid.Row="0" Grid.Column="2"
-                   BackgroundColor="#23272F"
-                   BorderColor="#00BFAE"
-                   CornerRadius="10"
-                   Padding="15">
-                <VerticalStackLayout Spacing="10">
-                    <Label Text="Password Tools"
-                           TextColor="#00BFAE"
+            <!-- Card: Password Tools -->
+            <Frame Grid.Row="0" Grid.Column="2">
+                <VerticalStackLayout Spacing="12" VerticalOptions="Center">
+                    <Label Text="[+] PASSWORD_TOOLS"
+                           TextColor="{StaticResource Primary}"
                            FontSize="18"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"/>
-                    <Label Text="Generate or manage secure passwords"
-                           FontSize="14"
+                    <Label Text="Generate passwords, test strength &amp; audit compromised accounts."
+                           TextColor="{StaticResource TextSecondary}"
+                           FontSize="13"
+                           HorizontalTextAlignment="Center"
                            HorizontalOptions="Center"/>
-                    <Button Text="Open"
-                            FontAttributes="Bold"
-                            Opacity="0.9"
-                            BackgroundColor="#536DFE"
-                            TextColor="#FFFFFF"
-                            Clicked="OnPasswordToolsClicked"/>
+                    <Button Text="EXECUTE"
+                            Clicked="OnPasswordToolsClicked"
+                            Margin="0,10,0,0"/>
                 </VerticalStackLayout>
             </Frame>
 
-            <Frame Grid.Row="1" Grid.Column="0"
-                   BackgroundColor="#23272F"
-                   BorderColor="#00BFAE"
-                   CornerRadius="10"
-                   Padding="15">
-                <VerticalStackLayout Spacing="10">
-                    <Label Text="Database Control"
-                           TextColor="#00BFAE"
+            <!-- Card: Database Control -->
+            <Frame Grid.Row="1" Grid.Column="0">
+                <VerticalStackLayout Spacing="12" VerticalOptions="Center">
+                    <Label Text="[+] DATABASE_CONTROL"
+                           TextColor="{StaticResource Primary}"
                            FontSize="18"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"/>
-                    <Label Text="Perform CRUD operations on your databases"
-                           FontSize="14"
+                    <Label Text="Perform database query operations and diagnostic data audits."
+                           TextColor="{StaticResource TextSecondary}"
+                           FontSize="13"
+                           HorizontalTextAlignment="Center"
                            HorizontalOptions="Center"/>
-                    <Button Text="Open"
-                            FontAttributes="Bold"
-                            Opacity="0.9"
-                            BackgroundColor="#536DFE"
-                            TextColor="#FFFFFF"
-                            Clicked="OnDatabaseControlClicked"/>
+                    <Button Text="EXECUTE"
+                            Clicked="OnDatabaseControlClicked"
+                            Margin="0,10,0,0"/>
                 </VerticalStackLayout>
             </Frame>
 
-            <Frame Grid.Row="1" Grid.Column="1"
-                   BackgroundColor="#23272F"
-                   BorderColor="#00BFAE"
-                   CornerRadius="10"
-                   Padding="15">
-                <VerticalStackLayout Spacing="10">
-                    <Label Text="Change Password"
-                           TextColor="#00BFAE"
+            <!-- Card: Change Password -->
+            <Frame Grid.Row="1" Grid.Column="1">
+                <VerticalStackLayout Spacing="12" VerticalOptions="Center">
+                    <Label Text="[+] SECURE_AUTH"
+                           TextColor="{StaticResource Primary}"
                            FontSize="18"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"/>
-                    <Label Text="Change your current password"
-                           FontSize="14"
+                    <Label Text="Update system credentials and local account authorization settings."
+                           TextColor="{StaticResource TextSecondary}"
+                           FontSize="13"
+                           HorizontalTextAlignment="Center"
                            HorizontalOptions="Center"/>
-                    <Button Text="Open"
-                            FontAttributes="Bold"
-                            Opacity="0.9"
-                            BackgroundColor="#536DFE"
-                            TextColor="#FFFFFF"
-                            Clicked="OnChangePasswordPageClicked"/>
+                    <Button Text="EXECUTE"
+                            Clicked="OnChangePasswordPageClicked"
+                            Margin="0,10,0,0"/>
                 </VerticalStackLayout>
             </Frame>
 
-            <Frame Grid.Row="1" Grid.Column="2"
-                   BackgroundColor="#23272F"
-                   BorderColor="#00BFAE"
-                   CornerRadius="10"
-                   Padding="15">
-                <VerticalStackLayout Spacing="10">
-                    <Label Text="Login Page"
-                           TextColor="#00BFAE"
+            <!-- Card: Login Page -->
+            <Frame Grid.Row="1" Grid.Column="2">
+                <VerticalStackLayout Spacing="12" VerticalOptions="Center">
+                    <Label Text="[+] ACCOUNT_LOGIN"
+                           TextColor="{StaticResource Primary}"
                            FontSize="18"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"/>
-                    <Label Text="Login Page"
-                           FontSize="14"
+                    <Label Text="Access authentication portal and toggle security active sessions."
+                           TextColor="{StaticResource TextSecondary}"
+                           FontSize="13"
+                           HorizontalTextAlignment="Center"
                            HorizontalOptions="Center"/>
-                    <Button Text="Open"
-                            FontAttributes="Bold"
-                            Opacity="0.9"
-                            BackgroundColor="#536DFE"
-                            TextColor="#FFFFFF"
-                            Clicked="OnLoginPageClicked"/>
+                    <Button Text="EXECUTE"
+                            Clicked="OnLoginPageClicked"
+                            Margin="0,10,0,0"/>
                 </VerticalStackLayout>
             </Frame>
         </Grid>

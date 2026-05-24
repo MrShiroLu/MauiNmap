@@ -7,33 +7,31 @@
 
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="20">
-            <Frame BackgroundColor="#23272F" BorderColor="#00BFAE" CornerRadius="10" Padding="15">
+            <Frame BackgroundColor="{StaticResource CardBackground}" BorderColor="{StaticResource Primary}" CornerRadius="4" Padding="15">
                 <VerticalStackLayout Spacing="15">
                     <Label Text="Ping Tool"
                            FontSize="24"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"
-                           TextColor="#00BFAE"/>
+                           TextColor="{StaticResource Primary}"/>
 
                     <Entry Text="{Binding Host}"
                            Placeholder="Enter host (e.g., 192.168.1.1 or example.com)"
-                           BackgroundColor="#2E323D"/>
+                           BackgroundColor="{StaticResource CardLight}"/>
 
                     <Button Text="Ping Host"
-                            BackgroundColor="#536DFE"
-                            TextColor="#FFFFFF"
-                            Opacity="0.9"
+                            
                             Command="{Binding PingCommand}"/>
 
                     <ActivityIndicator IsRunning="{Binding IsBusy}"
                                      IsVisible="{Binding IsBusy}"
                                      HorizontalOptions="Center"
-                                     BackgroundColor="#181A20"/>
+                                     BackgroundColor="{StaticResource CardBackground}"/>
 
                     <Editor Text="{Binding Result}"
                             HeightRequest="200"
                             IsReadOnly="True"
-                            BackgroundColor="#181A20"/>
+                            BackgroundColor="{StaticResource CardBackground}"/>
                 </VerticalStackLayout>
             </Frame>
         </VerticalStackLayout>

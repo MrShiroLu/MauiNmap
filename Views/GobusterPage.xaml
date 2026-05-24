@@ -6,30 +6,30 @@
              x:DataType="vm:GobusterViewModel">
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="20">
-            <Frame BackgroundColor="#23272F" BorderColor="#00BFAE" CornerRadius="10" Padding="15">
+            <Frame BackgroundColor="{StaticResource CardBackground}" BorderColor="{StaticResource Primary}" CornerRadius="4" Padding="15">
                 <VerticalStackLayout Spacing="15">
-                    <Label Text="Gobuster (Directory Buster)" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" TextColor="#00BFAE"/>
-                    <Entry Text="{Binding Url}" Placeholder="Target URL" BackgroundColor="#2E323D" TextColor="White"/>
+                    <Label Text="Gobuster (Directory Buster)" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" TextColor="{StaticResource Primary}"/>
+                    <Entry Text="{Binding Url}" Placeholder="Target URL" BackgroundColor="{StaticResource CardLight}" TextColor="White"/>
                      <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
-                        <Entry Grid.Column="0" Text="{Binding Wordlist}" Placeholder="Wordlist path (e.g., C:\tools\common.txt)" BackgroundColor="#2E323D" TextColor="White"/>
-                        <Button Grid.Column="1" Text="Browse" BackgroundColor="#00BFAE" TextColor="White" HeightRequest="40" Padding="12,0" FontSize="12" CornerRadius="6" Command="{Binding PickWordlistFileCommand}"/>
+                        <Entry Grid.Column="0" Text="{Binding Wordlist}" Placeholder="Wordlist path (e.g., C:\tools\common.txt)" BackgroundColor="{StaticResource CardLight}" TextColor="White"/>
+                        <Button Grid.Column="1" Text="Browse"  HeightRequest="40" Padding="12,0" FontSize="12" CornerRadius="4" Command="{Binding PickWordlistFileCommand}"/>
                     </Grid>
                     <HorizontalStackLayout Spacing="10" VerticalOptions="Center" HorizontalOptions="Center">
                         <Label Text="Remote Scan (Minimal API):" VerticalOptions="Center" TextColor="White"/>
                         <Switch IsToggled="{Binding UseRemoteApi}" OnColor="#00BFAE"/>
                     </HorizontalStackLayout>
 
-                    <Button Text="Start Scan" BackgroundColor="#536DFE" TextColor="#FFFFFF" Command="{Binding ScanCommand}"/>
+                    <Button Text="Start Scan"  Command="{Binding ScanCommand}"/>
                     <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" HorizontalOptions="Center"/>
-                    <Editor Text="{Binding Output}" HeightRequest="350" IsReadOnly="True" BackgroundColor="#181a20"/>
+                    <Editor Text="{Binding Output}" HeightRequest="350" IsReadOnly="True" BackgroundColor="{StaticResource CardBackground}"/>
                     <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10">
-                        <Button Grid.Column="0" Text="Export JSON" BackgroundColor="#00BFAE" TextColor="White" Command="{Binding ExportJsonCommand}"/>
-                        <Button Grid.Column="1" Text="Export CSV" BackgroundColor="#00BFAE" TextColor="White" Command="{Binding ExportCsvCommand}"/>
-                        <Button Grid.Column="2" Text="Export PDF" BackgroundColor="#00BFAE" TextColor="White" Command="{Binding ExportPdfCommand}"/>
+                        <Button Grid.Column="0" Text="Export JSON"  Command="{Binding ExportJsonCommand}"/>
+                        <Button Grid.Column="1" Text="Export CSV"  Command="{Binding ExportCsvCommand}"/>
+                        <Button Grid.Column="2" Text="Export PDF"  Command="{Binding ExportPdfCommand}"/>
                     </Grid>
                     <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10" VerticalOptions="Center">
-                        <Label Grid.Column="0" Text="{Binding StatusMessage}" TextColor="#00BFAE" FontSize="12" VerticalOptions="Center" LineBreakMode="CharacterWrap"/>
-                        <Button Grid.Column="1" Text="Copy Path" IsVisible="{Binding HasSavedPath}" BackgroundColor="#00BFAE" TextColor="White" HeightRequest="32" Padding="12,0" FontSize="11" CornerRadius="6" Command="{Binding CopySavedPathCommand}"/>
+                        <Label Grid.Column="0" Text="{Binding StatusMessage}" TextColor="{StaticResource Primary}" FontSize="12" VerticalOptions="Center" LineBreakMode="CharacterWrap"/>
+                        <Button Grid.Column="1" Text="Copy Path" IsVisible="{Binding HasSavedPath}"  HeightRequest="32" Padding="12,0" FontSize="11" CornerRadius="4" Command="{Binding CopySavedPathCommand}"/>
                     </Grid>
                 </VerticalStackLayout>
             </Frame>

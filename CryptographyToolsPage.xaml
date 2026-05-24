@@ -3,89 +3,80 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NmapMaui.CryptographyToolsPage">
 
-    <Grid RowDefinitions="Auto,*" Padding="20">
-        <Label Text="cryptography Tools"
-               TextColor="#FFFFFF"
-               FontSize="24"
-               FontAttributes="Bold"
-               HorizontalOptions="Center"
-               Margin="0,0,0,20"/>
+    <Grid RowDefinitions="Auto,*" Padding="25" BackgroundColor="Transparent">
+        <!-- Header -->
+        <VerticalStackLayout Grid.Row="0" HorizontalOptions="Center" Margin="0,10,0,30" Spacing="5">
+            <Label Text="> CRYPTOGRAPHY_UTILITIES"
+                   TextColor="{StaticResource Primary}"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"/>
+            <Label Text="Symmetric encryption, base64 encoding and hash generation"
+                   TextColor="{StaticResource TextSecondary}"
+                   FontSize="13"
+                   HorizontalOptions="Center"/>
+        </VerticalStackLayout>
 
+        <!-- Cards -->
         <Grid Grid.Row="1" 
-              RowDefinitions="*,*"
+              RowDefinitions="Auto"
               ColumnDefinitions="*,*,*"
-              RowSpacing="20"
               ColumnSpacing="20">
 
             <!-- Hash Calculator -->
-            <Frame Grid.Row="0" Grid.Column="0"
-                   BackgroundColor="#23272F"
-                   BorderColor="#00BFAE"
-                   CornerRadius="10"
-                   Padding="15">
-                <VerticalStackLayout Spacing="10">
-                    <Label Text="Hash Calculator"
-                           TextColor="#00BFAE"
+            <Frame Grid.Row="0" Grid.Column="0">
+                <VerticalStackLayout Spacing="12" VerticalOptions="Center">
+                    <Label Text="[+] HASH_CALCULATOR"
+                           TextColor="{StaticResource Primary}"
                            FontSize="18"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"/>
-                    <Label Text="Calculate various hashes"
-                           FontSize="14"
+                    <Label Text="Generate SHA-256, MD5, SHA-1 and other cryptographic checksums."
+                           TextColor="{StaticResource TextSecondary}"
+                           FontSize="13"
+                           HorizontalTextAlignment="Center"
                            HorizontalOptions="Center"/>
-                    <Button Text="Open"
-                            FontAttributes="Bold"
-                            Opacity="0.9"
-                            BackgroundColor="#536DFE"
-                            TextColor="#FFFFFF"
-                            Clicked="OnHashCalculatorClicked"/>
+                    <Button Text="EXECUTE"
+                            Clicked="OnHashCalculatorClicked"
+                            Margin="0,10,0,0"/>
                 </VerticalStackLayout>
             </Frame>
 
             <!-- Base64 Tool -->
-            <Frame Grid.Row="0" Grid.Column="1"
-                   BackgroundColor="#23272F"
-                   BorderColor="#00BFAE"
-                   CornerRadius="10"
-                   Padding="15">
-                <VerticalStackLayout Spacing="10">
-                    <Label Text="Base64 Tool"
-                           TextColor="#00BFAE"
+            <Frame Grid.Row="0" Grid.Column="1">
+                <VerticalStackLayout Spacing="12" VerticalOptions="Center">
+                    <Label Text="[+] BASE64_CODER"
+                           TextColor="{StaticResource Primary}"
                            FontSize="18"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"/>
-                    <Label Text="Encode/Decode Base64"
-                           FontSize="14"
+                    <Label Text="Encode raw text to Base64 format or decode ciphertexts."
+                           TextColor="{StaticResource TextSecondary}"
+                           FontSize="13"
+                           HorizontalTextAlignment="Center"
                            HorizontalOptions="Center"/>
-                    <Button Text="Open"
-                            FontAttributes="Bold"
-                            Opacity="0.9"
-                            BackgroundColor="#536DFE"
-                            TextColor="#FFFFFF"
-                            Clicked="OnBase64ToolClicked"/>
+                    <Button Text="EXECUTE"
+                            Clicked="OnBase64ToolClicked"
+                            Margin="0,10,0,0"/>
                 </VerticalStackLayout>
             </Frame>
 
             <!-- Encryption Tool -->
-            <Frame Grid.Row="0" Grid.Column="2"
-                   BackgroundColor="#23272F"
-                   BorderColor="#00BFAE"
-                   CornerRadius="10"
-                   Padding="15">
-                <VerticalStackLayout Spacing="10">
-                    <Label Text="Encryption Tool"
-                           TextColor="#00BFAE"
+            <Frame Grid.Row="0" Grid.Column="2">
+                <VerticalStackLayout Spacing="12" VerticalOptions="Center">
+                    <Label Text="[+] CIPHER_ENGINE"
+                           TextColor="{StaticResource Primary}"
                            FontSize="18"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"/>
-                    <Label Text="Encrypt/Decrypt text"
-                           FontSize="14"
+                    <Label Text="Encrypt or decrypt text values with symmetric algorithms."
+                           TextColor="{StaticResource TextSecondary}"
+                           FontSize="13"
+                           HorizontalTextAlignment="Center"
                            HorizontalOptions="Center"/>
-                    <Button Text="Open"
-                            FontAttributes="Bold"
-                            Opacity="0.9"
-                            BackgroundColor="#536DFE"
-                            TextColor="#FFFFFF"
-                            Clicked="OnEncryptionToolClicked"/>
+                    <Button Text="EXECUTE"
+                            Clicked="OnEncryptionToolClicked"
+                            Margin="0,10,0,0"/>
                 </VerticalStackLayout>
             </Frame>
         </Grid>

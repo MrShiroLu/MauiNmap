@@ -68,6 +68,11 @@ namespace NmapMaui.ViewModels
             try
             {
                 var path = await _export.ExportAsync(new[] { _lastResult }, fmt, "netcat");
+                if (string.IsNullOrEmpty(path))
+                {
+                    StatusMessage = "Export cancelled.";
+                    return;
+                }
                 StatusMessage = $"Saved: {path}";
             }
             catch (Exception ex) { StatusMessage = $"Export error: {ex.Message}"; }
