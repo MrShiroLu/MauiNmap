@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NmapMaui.Data;
 using NmapMaui.Services;
@@ -26,6 +26,13 @@ public static class MauiProgram
 		builder.Services.AddSingleton<ILoggingService, LoggingService>();
 		builder.Services.AddSingleton<ISchedulerService, SchedulerService>();
 		builder.Services.AddHttpClient<IApiClient, ApiClient>();
+
+		// Have I Been Pwned API için named HttpClient (socket exhaustion önleme)
+		builder.Services.AddHttpClient("hibp", client =>
+		{
+			client.DefaultRequestHeaders.Add("User-Agent", "NmapMaui");
+			client.BaseAddress = new Uri("https://api.pwnedpasswords.com/");
+		});
 		builder.Services.AddDbContextFactory<AppDbContext>(opts =>
 		{
 			var dbPath = System.IO.Path.Combine(FileSystem.AppDataDirectory, "maui_db_ef.db");
@@ -66,7 +73,7 @@ public static class MauiProgram
 		builder.Services.AddTransient<PortScannerViewModel>();
 		builder.Services.AddTransient<GobusterViewModel>();
 		builder.Services.AddTransient<NetcatViewModel>();
-		builder.Services.AddSingleton<PasswordLeakCheckService>();
+		builder.Services.AddTransient<PasswordLeakCheckService>();
 		builder.Services.AddSingleton<AppShell>();
 		builder.Services.AddTransient<MainPage>();
 
