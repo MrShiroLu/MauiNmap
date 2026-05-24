@@ -11,13 +11,20 @@ using NmapMaui.Api.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // ── Veritabanı (MSSQL) ─────────────────────────────────────────────────────
+var connectionString = builder.Configuration.GetConnectionString("Default");
+if (string.IsNullOrEmpty(connectionString))
+{
+    throw new InvalidOperationException("Connection string 'Default' is missing or empty in configuration.");
+}
 builder.Services.AddDbContext<ApiDbContext>(opt =>
-    opt.UseSqlServer(
-        builder.Configuration.GetConnectionString("Default") ??
-        "Server=127.0.0.1,1433;Database=NmapMauiDb;User Id=sa;Password=NmapMaui@2025!;TrustServerCertificate=True;"));
+    opt.UseSqlServer(connectionString));
 
 // ── JWT Authentication ──────────────────────────────────────────────────────
-var jwtKey     = builder.Configuration["Jwt:Key"]      ?? throw new InvalidOperationException("Jwt:Key is missing in config.");
+var jwtKey = builder.Configuration["Jwt:Key"];
+if (string.IsNullOrEmpty(jwtKey))
+{
+    throw new InvalidOperationException("Jwt:Key is missing or empty in configuration.");
+}
 var jwtIssuer  = builder.Configuration["Jwt:Issuer"]   ?? "NmapMaui.Api";
 var jwtAudience= builder.Configuration["Jwt:Audience"] ?? "NmapMaui.Client";
 var jwtExpHrs  = int.TryParse(builder.Configuration["Jwt:ExpiryHours"], out var h) ? h : 8;
