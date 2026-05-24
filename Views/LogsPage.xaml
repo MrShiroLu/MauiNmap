@@ -3,11 +3,40 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NmapMaui.Views.LogsPage"
              Title="Activity Logs">
-    <Grid Padding="20" RowDefinitions="Auto,*">
-        <HorizontalStackLayout Spacing="10">
-            <Button Text="Refresh"  Clicked="OnRefreshClicked"/>
-        </HorizontalStackLayout>
-        <CollectionView Grid.Row="1" x:Name="LogList" Margin="0,15,0,0">
+    <Grid Padding="20" RowDefinitions="Auto,Auto,*" ColumnDefinitions="*">
+        <!-- Header & Refresh -->
+        <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,10">
+            <Label Text="> SYSTEM_ACTIVITY_LOGS" TextColor="{StaticResource Primary}" FontSize="18" FontAttributes="Bold" VerticalOptions="Center"/>
+            <Button Grid.Column="1" Text="REFRESH" Clicked="OnRefreshClicked" HeightRequest="36" Padding="15,0"/>
+        </Grid>
+        
+        <!-- Filters (Kriterlere Göre Sorgulama) -->
+        <VerticalStackLayout Grid.Row="1" Spacing="10" Margin="0,0,0,15">
+            <SearchBar x:Name="LogSearchBar" 
+                       Placeholder="Search Action, User or Details..." 
+                       TextChanged="OnSearchTextChanged"
+                       BackgroundColor="{StaticResource CardLight}"
+                       TextColor="White"
+                       PlaceholderColor="Gray"/>
+            
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Picker x:Name="LevelPicker" 
+                        Title="Level Filter" 
+                        SelectedIndexChanged="OnFilterChanged" 
+                        BackgroundColor="{StaticResource CardLight}" 
+                        TextColor="White"
+                        TitleColor="Gray"/>
+                <Picker x:Name="CategoryPicker" 
+                        Grid.Column="1" 
+                        Title="Category Filter" 
+                        SelectedIndexChanged="OnFilterChanged" 
+                        BackgroundColor="{StaticResource CardLight}" 
+                        TextColor="White"
+                        TitleColor="Gray"/>
+            </Grid>
+        </VerticalStackLayout>
+
+        <CollectionView Grid.Row="2" x:Name="LogList">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Frame BackgroundColor="{StaticResource CardBackground}" BorderColor="{StaticResource Primary}" CornerRadius="4" Padding="10" Margin="0,5">

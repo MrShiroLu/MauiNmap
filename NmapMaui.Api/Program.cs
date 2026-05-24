@@ -49,11 +49,11 @@ builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
-// ── DB Migration / EnsureCreated ───────────────────────────────────────────
+// ── DB Migration / Migrate ───────────────────────────────────────────
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApiDbContext>();
-    db.Database.EnsureCreated();
+    db.Database.Migrate();
 }
 
 app.UseAuthentication();

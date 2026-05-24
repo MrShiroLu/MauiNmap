@@ -27,7 +27,17 @@ namespace NmapMaui.Data
         {
             if (!options.IsConfigured)
             {
-                var dbPath = Path.Combine(FileSystem.AppDataDirectory, "maui_db_ef.db");
+                string dbFolder;
+                try
+                {
+                    dbFolder = FileSystem.AppDataDirectory;
+                }
+                catch
+                {
+                    // Fallback for design-time (EF Core Migrations CLI)
+                    dbFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                }
+                var dbPath = Path.Combine(dbFolder, "maui_db_ef.db");
                 options.UseSqlite($"Data Source={dbPath}");
             }
         }
