@@ -5,26 +5,32 @@ using Quartz.Impl;
 
 namespace NmapMaui.Services
 {
-    // Wraps Quartz.NET to satisfy the "periyodik tarama / Görev Zamanlayıcı"
-    // commitment from the project proposal. Jobs run NmapScanJob which scans a
-    // host/port-range on the configured cron schedule and writes the result to
-    // the database + activity log.
+    /// <summary>
+    /// Quartz.NET tabanlı tarama zamanlayıcısı.
+    /// IServiceProvider artık statik property yerine Scheduler.Context'e
+    /// koyuluyor → thread-safe ve test edilebilir.
+    /// </summary>
     public class SchedulerService : ISchedulerService
     {
-        private IScheduler? _scheduler;
+        private IScheduler?           _scheduler;
         private readonly IServiceProvider _services;
 
         public SchedulerService(IServiceProvider services)
         {
             _services = services;
-            NmapScanJob.Services = services;
+            // Artık NmapScanJob.Services statik ataması yapılmıyor
         }
 
         public async Task StartAsync()
         {
             if (_scheduler != null) return;
-            var factory = new StdSchedulerFactory();
-            _scheduler = await factory.GetScheduler();
+
+            var factory  = new StdSchedulerFactory();
+            _scheduler   = await factory.GetScheduler();
+
+            // Services'i scheduler context'ine koy (statik değil, per-scheduler)
+            _scheduler.Context.Put("services", _services);
+
             await _scheduler.Start();
         }
 
@@ -34,9 +40,9 @@ namespace NmapMaui.Services
 
             var job = JobBuilder.Create<NmapScanJob>()
                 .WithIdentity($"nmap-{host}-{Guid.NewGuid():N}")
-                .UsingJobData("host", host)
+                .UsingJobData("host",      host)
                 .UsingJobData("startPort", startPort)
-                .UsingJobData("endPort", endPort)
+                .UsingJobData("endPort",   endPort)
                 .Build();
 
             var trigger = TriggerBuilder.Create()
@@ -62,21 +68,31 @@ namespace NmapMaui.Services
 
     public class NmapScanJob : IJob
     {
-        public static IServiceProvider? Services { get; set; }
+        // Artık statik IServiceProvider property yok!
+        // Services, scheduler context'inden alınır.
 
         public async Task Execute(IJobExecutionContext context)
         {
-            if (Services == null) return;
-            var host = context.MergedJobDataMap.GetString("host") ?? "";
-            var startPort = context.MergedJobDataMap.GetInt("startPort");
-            var endPort = context.MergedJobDataMap.GetInt("endPort");
+            // Scheduler.Context'ten services'i al
+            if (context.Scheduler.Context["services"] is not IServiceProvider services)
+                return;
 
-            var scanner = (INetworkScanner)Services.GetService(typeof(INetworkScanner))!;
-            var logging = (ILoggingService)Services.GetService(typeof(ILoggingService))!;
+            var host      = context.MergedJobDataMap.GetString("host") ?? "";
+            var startPort = context.MergedJobDataMap.GetInt("startPort");
+            var endPort   = context.MergedJobDataMap.GetInt("endPort");
+
+            // Scoped scope — Singleton olmayan servislerin doğru lifetime'ı için
+            using var scope  = services.CreateScope();
+            var scanner  = scope.ServiceProvider.GetRequiredService<INetworkScanner>();
+            var logging  = scope.ServiceProvider.GetRequiredService<ILoggingService>();
 
             await logging.LogAsync("ScheduledScan", "Scheduler", $"{host} {startPort}-{endPort}");
             var result = await scanner.ScanPortRangeAsync(host, startPort, endPort);
-            await logging.LogAsync("ScheduledScan.Complete", "Scheduler", $"success={result.IsSuccess}", result.IsSuccess ? "Info" : "Warning");
+            await logging.LogAsync(
+                "ScheduledScan.Complete",
+                "Scheduler",
+                $"success={result.IsSuccess}",
+                result.IsSuccess ? "Info" : "Warning");
         }
     }
 }
