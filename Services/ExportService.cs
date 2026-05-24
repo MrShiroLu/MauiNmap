@@ -26,55 +26,20 @@ namespace NmapMaui.Services
             var list = results.ToList();
             string path = string.Empty;
 
-#if WINDOWS
-            path = await Microsoft.Maui.ApplicationModel.MainThread.InvokeOnMainThreadAsync<string>(async () =>
+            string projectDir = AppDomain.CurrentDomain.BaseDirectory;
+            while (!string.IsNullOrEmpty(projectDir) && !File.Exists(Path.Combine(projectDir, "NmapMaui.csproj")))
             {
-                try
-                {
-                    var savePicker = new Windows.Storage.Pickers.FileSavePicker();
-                    savePicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary;
+                var parent = Directory.GetParent(projectDir);
+                projectDir = parent?.FullName;
+            }
+            if (string.IsNullOrEmpty(projectDir))
+            {
+                projectDir = AppDomain.CurrentDomain.BaseDirectory;
+            }
 
-                    string extension = format switch
-                    {
-                        ExportFormat.Json => ".json",
-                        ExportFormat.Csv => ".csv",
-                        ExportFormat.Pdf => ".pdf",
-                        _ => throw new ArgumentOutOfRangeException(nameof(format))
-                    };
+            string documentsDir = Path.Combine(projectDir, "Documents");
+            Directory.CreateDirectory(documentsDir);
 
-                    string choiceLabel = format switch
-                    {
-                        ExportFormat.Json => "JSON Document",
-                        ExportFormat.Csv => "CSV Document",
-                        ExportFormat.Pdf => "PDF Document",
-                        _ => "Document"
-                    };
-
-                    savePicker.FileTypeChoices.Add(choiceLabel, new List<string> { extension });
-                    savePicker.SuggestedFileName = $"{baseFileName}_{ts}";
-
-                    var mauiWindow = Microsoft.Maui.Controls.Application.Current?.Windows?.FirstOrDefault();
-                    if (mauiWindow == null)
-                        return string.Empty;
-
-                    var nativeWindow = mauiWindow.Handler?.PlatformView as Microsoft.UI.Xaml.Window;
-                    if (nativeWindow == null)
-                        return string.Empty;
-
-                    var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(nativeWindow);
-                    WinRT.Interop.InitializeWithWindow.Initialize(savePicker, hwnd);
-
-                    var file = await savePicker.PickSaveFileAsync();
-                    return file?.Path ?? string.Empty;
-                }
-                catch
-                {
-                    return string.Empty;
-                }
-            });
-#else
-            var dir = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
-            Directory.CreateDirectory(dir);
             string extension = format switch
             {
                 ExportFormat.Json => ".json",
@@ -82,8 +47,8 @@ namespace NmapMaui.Services
                 ExportFormat.Pdf => ".pdf",
                 _ => throw new ArgumentOutOfRangeException(nameof(format))
             };
-            path = Path.Combine(dir, $"{baseFileName}_{ts}{extension}");
-#endif
+
+            path = Path.Combine(documentsDir, $"{baseFileName}_{ts}{extension}");
 
             if (string.IsNullOrEmpty(path))
             {
