@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net9.0-android;net9.0-ios;net9.0-maccatalyst</TargetFrameworks>
@@ -42,6 +42,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<!-- NmapMaui.Api alt klasörü ayrı bir proje; MAUI tarafından derlenmemeli -->
+		<Compile Remove="NmapMaui.Api\**\*" />
+		<None    Remove="NmapMaui.Api\**\*" />
+		<Content Remove="NmapMaui.Api\**\*" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
 
@@ -70,6 +77,7 @@
 		<PackageReference Include="Microsoft.Extensions.Http" Version="9.0.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.0" />
+		<PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
 	</ItemGroup>
 
 	<ItemGroup>
