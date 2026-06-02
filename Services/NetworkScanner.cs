@@ -164,17 +164,21 @@ namespace NmapMaui.Services
                 }
             }
 
+            if (result.IsSuccess)
+                SaveNmapScanResult(result.Result);
+
             return result;
         }
 
         public async Task<ScanResult> PingHostAsync(string host)
         {
+            ScanResult scanResult;
             try
             {
                 using var ping = new System.Net.NetworkInformation.Ping();
                 var reply = await ping.SendPingAsync(host);
-                
-                return new ScanResult
+
+                scanResult = new ScanResult
                 {
                     Target = host,
                     Result = $"Reply from {host}: time={reply.RoundtripTime}ms",
@@ -185,7 +189,7 @@ namespace NmapMaui.Services
             }
             catch (Exception ex)
             {
-                return new ScanResult
+                scanResult = new ScanResult
                 {
                     Target = host,
                     Result = $"Ping failed: {ex.Message}",
@@ -194,6 +198,9 @@ namespace NmapMaui.Services
                     IsSuccess = false
                 };
             }
+
+            SavePingResult(host);
+            return scanResult;
         }
 
         public async Task<ScanResult> ResolveDnsAsync(string hostname)
@@ -236,14 +243,26 @@ namespace NmapMaui.Services
         {
             if (_authService.CurrentUser == null) return;
 
+            _databaseService.SetCurrentUser(_authService.CurrentUser.Username, _authService.CurrentUser.Id);
             var nmapResult = new Nmap
             {
                 NmapPort = result,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow,
-                CreatedBy = _authService.CurrentUser.Username
+                Date = DateTime.UtcNow
             };
             await _databaseService.AddItemAsync(nmapResult);
+        }
+
+        private async void SavePingResult(string host)
+        {
+            if (_authService.CurrentUser == null) return;
+
+            _databaseService.SetCurrentUser(_authService.CurrentUser.Username, _authService.CurrentUser.Id);
+            var pingResult = new Ping
+            {
+                Input = host,
+                Date = DateTime.UtcNow
+            };
+            await _databaseService.AddItemAsync(pingResult);
         }
     }
 } 

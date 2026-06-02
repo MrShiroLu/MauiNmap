@@ -61,6 +61,7 @@ namespace NmapMaui.ViewModels
                 var match = string.Equals(computed, HashToVerify.Trim(), StringComparison.OrdinalIgnoreCase);
                 VerificationResult = match ? $"VERIFIED ({SelectedAlgorithm})\n{computed}" : $"MISMATCH\nComputed: {computed}\nProvided: {HashToVerify}";
                 await _logging.LogAsync("HashVerify", "Crypto", $"{SelectedAlgorithm} match={match}", match ? "Info" : "Warning");
+                await _db.AddItemAsync(new Hash { Input = Input, Algorithm = SelectedAlgorithm, Output = computed });
             }
             finally { IsBusy = false; }
         }
