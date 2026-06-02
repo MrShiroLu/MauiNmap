@@ -24,12 +24,10 @@
                 TextColor="{StaticResource TextPrimary}"
                 BackgroundColor="{StaticResource CardLight}"/>
 
-        <!-- Scrollable Data Section -->
-        <ScrollView Grid.Row="2" 
-                    x:Name="_scrollView"
+        <!-- Data Section -->
+        <ScrollView Grid.Row="2"
                     VerticalOptions="FillAndExpand">
-            <ContentView x:Name="_tableContentView">
-            </ContentView>
+            <ContentView x:Name="_tableContentView"/>
         </ScrollView>
     </Grid>
 </ContentPage>

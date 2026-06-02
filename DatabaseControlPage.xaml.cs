@@ -1,4 +1,4 @@
-﻿using NmapMaui.Views;
+using NmapMaui.Views;
 using NmapMaui.Services;
 using NmapMaui.Models;
 using System.Collections.ObjectModel;
@@ -73,10 +73,10 @@ public partial class DatabaseControlPage : ContentPage
         _selectedModelType = modelType;
 
         var mainContainer = new VerticalStackLayout();
-        
+
         var crudView = CreateCrudViewForModel(modelType);
         mainContainer.Children.Add(crudView);
-        
+
         _currentCollectionView = new CollectionView
         {
             ItemTemplate = CreateDataTemplateForModel(modelType),
