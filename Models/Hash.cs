@@ -1,4 +1,3 @@
-using SQLite;
 using System;
 
 namespace NmapMaui.Models
