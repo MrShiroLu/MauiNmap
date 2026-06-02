@@ -41,7 +41,7 @@ namespace NmapMaui.ViewModels
 
             _db.SetCurrentUser(_auth.CurrentUser.Username, _auth.CurrentUser.Id);
             await _logging.LogAsync("PasswordStrength", "Password", strength);
-            await _db.AddItemAsync(new PassStr { Input = Password, Output = strength });
+            await _db.AddItemAsync(new PassStr { Input = Password, Output = strength, Result = strength });
         }
 
         private static (string strength, double score, string feedback) Calculate(string password)

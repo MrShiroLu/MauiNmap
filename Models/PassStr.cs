@@ -13,6 +13,9 @@ namespace NmapMaui.Models
         public PassStr()
         {
             Date = DateTime.Now;
+            Input = string.Empty;
+            Output = string.Empty;
+            Result = string.Empty;
         }
     }
 } 

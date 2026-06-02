@@ -11,6 +11,7 @@ namespace NmapMaui.Models
         public Nmap()
         {
             Date = DateTime.Now;
+            NmapPort = string.Empty;
         }
     }
 } 

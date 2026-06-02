@@ -11,6 +11,7 @@ namespace NmapMaui.Models
         public Ping()
         {
             Date = DateTime.Now;
+            Input = string.Empty;
         }
     }
 } 

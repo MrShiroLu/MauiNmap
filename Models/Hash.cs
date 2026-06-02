@@ -13,6 +13,9 @@ namespace NmapMaui.Models
         public Hash()
         {
             Date = DateTime.Now;
+            Input = string.Empty;
+            Algorithm = string.Empty;
+            Output = string.Empty;
         }
     }
 } 

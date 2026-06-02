@@ -12,6 +12,8 @@ namespace NmapMaui.Models
         public PassGen()
         {
             Date = DateTime.Now;
+            Input = string.Empty;
+            Output = string.Empty;
         }
     }
 } 

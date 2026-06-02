@@ -12,6 +12,8 @@ namespace NmapMaui.Models
         public Dns()
         {
             Date = DateTime.Now;
+            Hostname = string.Empty;
+            IpAddress = string.Empty;
         }
     }
 } 

@@ -13,6 +13,8 @@ namespace NmapMaui.Models
         public Base64()
         {
             Date = DateTime.Now;
+            Input = string.Empty;
+            Output = string.Empty;
         }
     }
 } 

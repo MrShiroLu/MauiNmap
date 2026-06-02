@@ -13,6 +13,8 @@ namespace NmapMaui.Models
         public Encryption()
         {
             Date = DateTime.Now;
+            Input = string.Empty;
+            Output = string.Empty;
         }
     }
 } 
