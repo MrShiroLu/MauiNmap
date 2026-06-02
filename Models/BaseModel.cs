@@ -11,9 +11,9 @@ namespace NmapMaui.Models
         public string CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-//        public int CreatedByUserId { get; set; }
-  //      public string UpdatedBy { get; set; }
-    //    public int? UpdatedByUserId { get; set; }
+        public int CreatedByUserId { get; set; }
+        public string UpdatedBy { get; set; }
+        public int? UpdatedByUserId { get; set; }
 
         public BaseModel()
         {
