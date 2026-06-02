@@ -66,6 +66,8 @@ namespace NmapMaui.ViewModels
             if (_auth.CurrentUser == null) { StatusMessage = "Please log in."; return; }
             if (string.IsNullOrWhiteSpace(Url) || string.IsNullOrWhiteSpace(Wordlist))
             { StatusMessage = "URL and wordlist required."; return; }
+            if (!Url.StartsWith("http://") && !Url.StartsWith("https://"))
+            { StatusMessage = "URL must start with http:// or https://"; return; }
 
             _db.SetCurrentUser(_auth.CurrentUser.Username, _auth.CurrentUser.Id);
             LastSavedPath = string.Empty;
@@ -107,6 +109,8 @@ namespace NmapMaui.ViewModels
                 {
                     var result = await _gobuster.RunDirectoryScanAsync(Url, Wordlist, Append);
                     _lastResult = result;
+                    if (!result.IsSuccess && string.IsNullOrWhiteSpace(Output))
+                        Output = result.Result;
                     await _db.AddItemAsync(new Gobuster { Target = Url, Wordlist = Wordlist, Result = result.Result });
                     StatusMessage = result.IsSuccess ? "Scan finished." : "Scan failed.";
                 }

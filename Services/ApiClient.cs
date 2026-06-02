@@ -81,6 +81,7 @@ namespace NmapMaui.Services
         public async Task<ApiScanLog?> NmapScanAsync(string host, int startPort, int endPort)
         {
             var resp = await _http.PostAsJsonAsync("/nmap/scan", new { host, startPort, endPort });
+            ThrowIfUnauthorized(resp);
             resp.EnsureSuccessStatusCode();
             return await resp.Content.ReadFromJsonAsync<ApiScanLog>();
         }
@@ -88,6 +89,7 @@ namespace NmapMaui.Services
         public async Task<ApiScanLog?> GobusterScanAsync(string url, string wordlist)
         {
             var resp = await _http.PostAsJsonAsync("/gobuster/scan", new { url, wordlist });
+            ThrowIfUnauthorized(resp);
             resp.EnsureSuccessStatusCode();
             return await resp.Content.ReadFromJsonAsync<ApiScanLog>();
         }
@@ -104,5 +106,14 @@ namespace NmapMaui.Services
         private void SetBearerToken(string token) =>
             _http.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", token);
+
+        private static void ThrowIfUnauthorized(HttpResponseMessage resp)
+        {
+            if (resp.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                Preferences.Remove("ApiJwtToken");
+                throw new UnauthorizedAccessException("API session expired. Please log in again via API Settings.");
+            }
+        }
     }
 }
