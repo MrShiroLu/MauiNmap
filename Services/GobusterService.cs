@@ -26,9 +26,10 @@ namespace NmapMaui.Services
             Process? process = null;
             try
             {
+                var gobusterPath = ResolveGobusterPath();
                 var startInfo = new ProcessStartInfo
                 {
-                    FileName = "gobuster",
+                    FileName = gobusterPath,
                     Arguments = $"dir -u {url} -w \"{wordlist}\" -q",
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
@@ -99,6 +100,27 @@ namespace NmapMaui.Services
             }
 
             return result;
+        }
+
+        private static string ResolveGobusterPath()
+        {
+            // Check common Windows install locations before falling back to PATH
+            string[] candidates =
+            [
+                "gobuster",
+                @"C:\Program Files\gobuster\gobuster.exe",
+                @"C:\tools\gobuster\gobuster.exe",
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @"go\bin\gobuster.exe"),
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @"go\bin\gobuster"),
+            ];
+
+            foreach (var candidate in candidates)
+            {
+                if (candidate == "gobuster") return candidate; // let OS resolve via PATH
+                if (File.Exists(candidate)) return candidate;
+            }
+
+            return "gobuster";
         }
     }
 }
