@@ -108,6 +108,7 @@ namespace NmapMaui.Services
             string[] candidates =
             [
                 "gobuster",
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @"Downloads\gobuster_Windows_x86_64\gobuster.exe"),
                 @"C:\Program Files\gobuster\gobuster.exe",
                 @"C:\tools\gobuster\gobuster.exe",
                 Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @"go\bin\gobuster.exe"),
