@@ -107,7 +107,6 @@ namespace NmapMaui.Services
             // Check common Windows install locations before falling back to PATH
             string[] candidates =
             [
-                "gobuster",
                 Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @"Downloads\gobuster_Windows_x86_64\gobuster.exe"),
                 @"C:\Program Files\gobuster\gobuster.exe",
                 @"C:\tools\gobuster\gobuster.exe",
@@ -117,11 +116,10 @@ namespace NmapMaui.Services
 
             foreach (var candidate in candidates)
             {
-                if (candidate == "gobuster") return candidate; // let OS resolve via PATH
                 if (File.Exists(candidate)) return candidate;
             }
 
-            return "gobuster";
+            return "gobuster"; // fall back to PATH
         }
     }
 }
