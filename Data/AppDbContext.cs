@@ -1,15 +1,13 @@
-using System.IO;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Maui.Storage;
 using NmapMaui.Models;
 
 namespace NmapMaui.Data
 {
-    // EF Core DbContext introduced to satisfy the project proposal's commitment to
-    // Code-First EF. It points at a separate database file so it can coexist with
-    // the legacy sqlite-net-pcl `DatabaseService` while pages are migrated over.
     public class AppDbContext : DbContext
     {
+        public const string ConnectionString =
+            "Server=(localdb)\\mssqllocaldb;Database=NmapMauiClient;Trusted_Connection=True;MultipleActiveResultSets=true";
+
         public DbSet<User> Users => Set<User>();
         public DbSet<Hash> Hashes => Set<Hash>();
         public DbSet<Encryption> Encryptions => Set<Encryption>();
@@ -27,26 +25,12 @@ namespace NmapMaui.Data
         {
             if (!options.IsConfigured)
             {
-                string dbFolder;
-                try
-                {
-                    dbFolder = FileSystem.AppDataDirectory;
-                }
-                catch
-                {
-                    // Fallback for design-time (EF Core Migrations CLI)
-                    dbFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-                }
-                var dbPath = Path.Combine(dbFolder, "maui_db_ef.db");
-                options.UseSqlite($"Data Source={dbPath}");
+                options.UseSqlServer(ConnectionString);
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // sqlite-net-pcl attributes are not understood by EF Core, so primary
-            // keys are configured explicitly via the BaseModel.Id convention (Id is
-            // recognized as PK by EF). Nothing else custom needed for now.
             base.OnModelCreating(modelBuilder);
         }
     }

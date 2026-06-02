@@ -35,8 +35,7 @@ public static class MauiProgram
 		});
 		builder.Services.AddDbContextFactory<AppDbContext>(opts =>
 		{
-			var dbPath = System.IO.Path.Combine(FileSystem.AppDataDirectory, "maui_db_ef.db");
-			opts.UseSqlite($"Data Source={dbPath}");
+			opts.UseSqlServer(AppDbContext.ConnectionString);
 		});
 
 		// Register pages for dependency injection using the builder
