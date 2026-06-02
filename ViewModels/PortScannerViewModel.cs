@@ -97,6 +97,7 @@ namespace NmapMaui.ViewModels
                 if (_lastResult != null)
                 {
                     await _logging.LogAsync("PortScan.Complete", "Network", $"success={_lastResult.IsSuccess}", _lastResult.IsSuccess ? "Info" : "Warning");
+                    await _db.AddItemAsync(new Models.Nmap { NmapPort = _lastResult.Result, Date = DateTime.UtcNow });
                 }
             }
             catch (Exception ex)

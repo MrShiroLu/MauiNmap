@@ -1,17 +1,18 @@
+using System;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using NmapMaui.Models;
 using NmapMaui.Services;
 
 namespace NmapMaui.ViewModels
 {
-    // Example MVVM ViewModel — pattern to follow when converting remaining pages.
-    // XAML binds Host, Result, IsBusy, PingCommand. No business logic should live in the
-    // .xaml.cs code-behind beyond InitializeComponent + BindingContext assignment.
     public partial class PingToolViewModel : ObservableObject
     {
         private readonly INetworkScanner _scanner;
         private readonly ILoggingService _logging;
+        private readonly DatabaseService _db;
+        private readonly AuthService _auth;
 
         [ObservableProperty]
         private string host = string.Empty;
@@ -22,28 +23,29 @@ namespace NmapMaui.ViewModels
         [ObservableProperty]
         private bool isBusy;
 
-        public PingToolViewModel(INetworkScanner scanner, ILoggingService logging)
+        public PingToolViewModel(INetworkScanner scanner, ILoggingService logging, DatabaseService db, AuthService auth)
         {
             _scanner = scanner;
             _logging = logging;
+            _db = db;
+            _auth = auth;
         }
 
         [RelayCommand]
         private async Task PingAsync()
         {
-            if (string.IsNullOrWhiteSpace(Host))
-            {
-                Result = "Please enter a host.";
-                return;
-            }
+            if (_auth.CurrentUser == null) { Result = "Please log in."; return; }
+            if (string.IsNullOrWhiteSpace(Host)) { Result = "Please enter a host."; return; }
 
             try
             {
                 IsBusy = true;
                 Result = "Pinging...";
+                _db.SetCurrentUser(_auth.CurrentUser.Username, _auth.CurrentUser.Id);
                 await _logging.LogAsync("Ping", "Network", Host);
                 var r = await _scanner.PingHostAsync(Host);
                 Result = r.Result;
+                await _db.AddItemAsync(new Ping { Input = Host, Date = DateTime.UtcNow });
             }
             finally
             {

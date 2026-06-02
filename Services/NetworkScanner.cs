@@ -10,14 +10,7 @@ namespace NmapMaui.Services
 {
     public class NetworkScanner : INetworkScanner
     {
-        private readonly DatabaseService _databaseService;
-        private readonly AuthService _authService;
 
-        public NetworkScanner(DatabaseService databaseService, AuthService authService)
-        {
-            _databaseService = databaseService;
-            _authService = authService;
-        }
 
         public async Task<ScanResult> ScanPortAsync(string host, int port)
         {
@@ -164,8 +157,6 @@ namespace NmapMaui.Services
                 }
             }
 
-            await SaveNmapScanResultAsync(result.Result);
-
             return result;
         }
 
@@ -198,7 +189,6 @@ namespace NmapMaui.Services
                 };
             }
 
-            await SavePingResultAsync(host);
             return scanResult;
         }
 
@@ -238,32 +228,5 @@ namespace NmapMaui.Services
             }
         }
 
-        private async Task SaveNmapScanResultAsync(string result)
-        {
-            if (_authService.CurrentUser == null) return;
-            try
-            {
-                _databaseService.SetCurrentUser(_authService.CurrentUser.Username, _authService.CurrentUser.Id);
-                await _databaseService.AddItemAsync(new Nmap { NmapPort = result, Date = DateTime.UtcNow });
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"SaveNmapScanResult failed: {ex.Message}");
-            }
-        }
-
-        private async Task SavePingResultAsync(string host)
-        {
-            if (_authService.CurrentUser == null) return;
-            try
-            {
-                _databaseService.SetCurrentUser(_authService.CurrentUser.Username, _authService.CurrentUser.Id);
-                await _databaseService.AddItemAsync(new Ping { Input = host, Date = DateTime.UtcNow });
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"SavePingResult failed: {ex.Message}");
-            }
-        }
     }
 } 
