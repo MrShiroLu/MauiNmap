@@ -8,9 +8,6 @@ using NmapMaui.Models;
 
 namespace NmapMaui.Services
 {
-    // Migrated from sqlite-net-pcl to EF Core. The public surface is preserved so
-    // existing pages/view-models keep working; internally everything now goes
-    // through AppDbContext via IDbContextFactory.
     public class DatabaseService
     {
         private readonly IDbContextFactory<AppDbContext> _factory;
