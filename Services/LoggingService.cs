@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using NmapMaui.Data;
 using NmapMaui.Models;
 
 namespace NmapMaui.Services
@@ -9,11 +12,13 @@ namespace NmapMaui.Services
     {
         private readonly DatabaseService _db;
         private readonly AuthService _auth;
+        private readonly IDbContextFactory<AppDbContext> _factory;
 
-        public LoggingService(DatabaseService db, AuthService auth)
+        public LoggingService(DatabaseService db, AuthService auth, IDbContextFactory<AppDbContext> factory)
         {
             _db = db;
             _auth = auth;
+            _factory = factory;
         }
 
         public async Task LogAsync(string action, string category, string details = "", string level = "Info")
@@ -43,5 +48,14 @@ namespace NmapMaui.Services
         }
 
         public Task<List<ActivityLog>> GetAllAsync() => _db.GetItemsAsync<ActivityLog>();
+
+        public async Task<List<ActivityLog>> GetRecentAsync(int count = 200)
+        {
+            await using var ctx = await _factory.CreateDbContextAsync();
+            return await ctx.ActivityLogs
+                .OrderByDescending(x => x.Timestamp)
+                .Take(count)
+                .ToListAsync();
+        }
     }
 }

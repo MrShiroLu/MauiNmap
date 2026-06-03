@@ -8,5 +8,6 @@ namespace NmapMaui.Services
     {
         Task LogAsync(string action, string category, string details = "", string level = "Info");
         Task<List<ActivityLog>> GetAllAsync();
+        Task<List<ActivityLog>> GetRecentAsync(int count = 200);
     }
 }

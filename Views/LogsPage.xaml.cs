@@ -28,8 +28,7 @@ public partial class LogsPage : ContentPage
 
     private async Task LoadAsync()
     {
-        _allLogs = await _logging.GetAllAsync();
-        _allLogs.Sort((a, b) => b.Timestamp.CompareTo(a.Timestamp));
+        _allLogs = await _logging.GetRecentAsync(200);
 
         // Populate Pickers if empty
         if (LevelPicker.Items.Count == 0)
